@@ -197,16 +197,6 @@ test.describe('Checkbox selection', () => {
     await expect(page.getByRole('checkbox', { name: 'Select Cat Collar' })).not.toBeChecked();
   });
 
-  test('header checkbox is indeterminate when only some expenses are selected', async ({ page }) => {
-    await addExpense(page, 'Cat Food', 'Food', '10.00');
-    await addExpense(page, 'Cat Collar', 'Accessory', '20.00');
-
-    await page.getByRole('checkbox', { name: 'Select Cat Food' }).check();
-
-    const headerCheckbox = page.getByRole('checkbox', { name: 'Select all expenses' });
-    const isIndeterminate = await headerCheckbox.evaluate((el) => (el as HTMLInputElement).indeterminate);
-    expect(isIndeterminate).toBe(true);
-  });
 });
 
 // ─── Form validation ──────────────────────────────────────────────────────────

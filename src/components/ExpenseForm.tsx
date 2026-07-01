@@ -92,16 +92,17 @@ export function ExpenseForm({ onSubmit, onCancel, initialValues }: ExpenseFormPr
 
   return (
     <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
-      <FormField label="Item Name" error={errors.name} htmlFor="expense-name">
-        <Input
-          id="expense-name"
-          type="text"
-          placeholder="e.g. Whiskers Cat Food"
-          value={values.name}
-          onChange={(e) => handleChange('name', e.target.value)}
-          hasError={!!errors.name}
-          autoFocus
-        />
+      <FormField label="Item Name" fieldLabel="e.g. Whiskers Cat Food" error={errors.name} htmlFor="expense-name">
+        {(accessibleLabel) => (
+          <Input
+            id="expense-name"
+            type="text"
+            value={values.name}
+            onChange={(e) => handleChange('name', e.target.value)}
+            hasError={!!errors.name}
+            aria-label={accessibleLabel}
+          />
+        )}
       </FormField>
 
       <FormField label="Category" error={errors.category} htmlFor="expense-category">
@@ -133,20 +134,27 @@ export function ExpenseForm({ onSubmit, onCancel, initialValues }: ExpenseFormPr
         </div>
       </FormField>
 
-      <FormField label="Amount" error={errors.amount} htmlFor="expense-amount">
-        <div className="relative">
-          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400">$</span>
-          <Input
-            id="expense-amount"
-            type="text"
-            inputMode="decimal"
-            placeholder="0.00"
-            value={values.amount}
-            onChange={(e) => handleChange('amount', e.target.value)}
-            hasError={!!errors.amount}
-            className="pl-7"
-          />
-        </div>
+      <FormField
+        label="Amount"
+        fieldLabel="enter a dollar amount, e.g. 25.00"
+        error={errors.amount}
+        htmlFor="expense-amount"
+      >
+        {(accessibleLabel) => (
+          <div className="relative">
+            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400">$</span>
+            <Input
+              id="expense-amount"
+              type="text"
+              inputMode="decimal"
+              aria-label={accessibleLabel}
+              value={values.amount}
+              onChange={(e) => handleChange('amount', e.target.value)}
+              hasError={!!errors.amount}
+              className="pl-7"
+            />
+          </div>
+        )}
       </FormField>
 
       <div className="flex gap-3 pt-1">

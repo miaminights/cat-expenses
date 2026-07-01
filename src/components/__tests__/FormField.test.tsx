@@ -46,4 +46,34 @@ describe('FormField', () => {
     );
     expect(screen.getByLabelText('Category')).toBeInTheDocument();
   });
+
+  it('calls render-prop children with the combined accessible label', () => {
+    render(
+      <FormField label="Item Name" fieldLabel="e.g. Whiskers Cat Food">
+        {(accessibleLabel) => <input aria-label={accessibleLabel} />}
+      </FormField>,
+    );
+    expect(screen.getByRole('textbox')).toHaveAttribute(
+      'aria-label',
+      'Item Name, e.g. Whiskers Cat Food',
+    );
+  });
+
+  it('renders the element returned by render-prop children', () => {
+    render(
+      <FormField label="Amount" fieldLabel="e.g. 25.00">
+        {() => <input placeholder="dollar amount" />}
+      </FormField>,
+    );
+    expect(screen.getByPlaceholderText('dollar amount')).toBeInTheDocument();
+  });
+
+  it('passes only the label when fieldLabel is omitted and children is a function', () => {
+    render(
+      <FormField label="Item Name">
+        {(accessibleLabel) => <input aria-label={accessibleLabel} />}
+      </FormField>,
+    );
+    expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', 'Item Name, ');
+  });
 });

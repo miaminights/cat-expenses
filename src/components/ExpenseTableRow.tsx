@@ -34,13 +34,36 @@ export function ExpenseTableRow({
       })}
     >
       <td className="w-12 px-4 py-4">
-        <input
-          type="checkbox"
-          checked={isSelected}
-          onChange={() => onToggle(expense.id)}
-          className="h-4 w-4 cursor-pointer rounded border-gray-300 text-brand-700 focus:ring-brand-600"
-          aria-label={`Select ${expense.name}`}
-        />
+        <button
+          type="button"
+          role="checkbox"
+          aria-checked={isSelected}
+          aria-label={`Select ${expense.name}. Category ${expense.category}. Expense amount ${formatCurrency(expense.amount)}`}
+          onClick={() => onToggle(expense.id)}
+          className={clsx(
+            'flex h-4 w-4 items-center justify-center rounded border transition-colors',
+            'focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-1',
+            {
+              'border-brand-700 bg-brand-700': isSelected,
+              'border-gray-300 bg-white hover:border-brand-400': !isSelected,
+            },
+          )}
+        >
+          {isSelected && (
+            <svg
+              className="h-2.5 w-2.5 text-white"
+              viewBox="0 0 10 8"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M1 4L3.5 7 9 1" />
+            </svg>
+          )}
+        </button>
       </td>
       <td className="px-4 py-4">
         <div className="flex items-center gap-2">

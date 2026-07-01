@@ -37,7 +37,11 @@ export function ExpenseTable({
 
   if (expenses.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-center">
+      <div
+        tabIndex={0}
+        className="flex flex-col items-center justify-center py-20 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2"
+        aria-label="No expenses yet, click Add Expense to get started"
+      >
         <div className="mb-4 text-5xl" aria-hidden="true">
           🐱
         </div>

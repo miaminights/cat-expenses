@@ -1,19 +1,20 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface FormFieldProps {
   label: string;
+  fieldLabel?: string;
   error?: string;
-  children: ReactNode;
+  children: ReactNode | ((accessibleLabel: string) => ReactNode);
   htmlFor?: string;
 }
 
-export function FormField({ label, error, children, htmlFor }: FormFieldProps) {
+export function FormField({ label, fieldLabel, error, children, htmlFor }: FormFieldProps) {
   return (
     <div className="flex flex-col gap-1.5">
       <label htmlFor={htmlFor} className="text-sm font-medium text-gray-700">
         {label}
       </label>
-      {children}
+      {typeof children === 'function' ? children(`${label}, ${fieldLabel ?? ''}`) : children}
       {error && (
         <p className="flex items-center gap-1 text-xs text-red-600">
           <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
