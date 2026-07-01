@@ -40,6 +40,9 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 
+# Code coverage
+coverage
+
 # Playwright
 playwright-report
 test-results
