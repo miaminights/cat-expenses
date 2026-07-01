@@ -45,6 +45,12 @@ async function addExpense(page: Page, name: string, category: string, amount: st
   await expect(page.getByRole('dialog')).not.toBeVisible();
 }
 
+async function confirmDelete(page: Page) {
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await page.getByRole('dialog').getByRole('button', { name: 'Delete' }).click();
+  await expect(page.getByRole('dialog')).not.toBeVisible();
+}
+
 // ─── Modal open / close ───────────────────────────────────────────────────────
 
 test.describe('Modal open/close', () => {
@@ -139,6 +145,7 @@ test.describe('Deleting expenses', () => {
 
     await page.getByRole('checkbox', { name: 'Select Cat Toy' }).check();
     await page.getByRole('button', { name: /delete/i }).click();
+    await confirmDelete(page);
 
     await expect(page.getByText('Cat Toy')).not.toBeVisible();
     // Empty state returns
@@ -153,6 +160,7 @@ test.describe('Deleting expenses', () => {
     await page.getByRole('checkbox', { name: 'Select Cat Food' }).check();
     await page.getByRole('checkbox', { name: 'Select Cat Collar' }).check();
     await page.getByRole('button', { name: /delete/i }).click();
+    await confirmDelete(page);
 
     await expect(page.getByText('Cat Food')).not.toBeVisible();
     await expect(page.getByText('Cat Collar')).not.toBeVisible();
@@ -335,6 +343,7 @@ test.describe('Data persistence', () => {
     await addExpense(page, 'Cat Toy', 'Accessory', '10.00');
     await page.getByRole('checkbox', { name: 'Select Cat Toy' }).check();
     await page.getByRole('button', { name: /delete/i }).click();
+    await confirmDelete(page);
 
     await page.reload();
 

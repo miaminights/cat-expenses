@@ -3,12 +3,14 @@ import { useCatExpenseData } from './hooks/useCatExpenseData';
 import { getTopCategories } from './utils/categoryUtils';
 import { Button } from './components/Button';
 import { ExpenseTable } from './components/ExpenseTable';
+import { DeleteConfirmModal } from './components/DeleteConfirmModal';
 import { ExpenseModal } from './components/ExpenseModal';
 import type { Expense } from './hooks/useCatExpenseData';
 
 export default function App() {
   const { expenses, addExpense, updateExpense, duplicateExpense, deleteExpenses } = useCatExpenseData();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [currentExpense, setCurrentExpense] = useState<Expense | null>(null);
 
@@ -37,9 +39,15 @@ export default function App() {
     }
   }
 
-  function handleDeleteSelected() {
+  const selectedExpenses = useMemo(
+    () => expenses.filter((e) => selectedIds.includes(e.id)),
+    [expenses, selectedIds],
+  );
+
+  function handleDeleteConfirmed() {
     deleteExpenses(selectedIds);
     setSelectedIds([]);
+    setIsDeleteModalOpen(false);
   }
 
   const totalExpensesLabel = `${expenses.length} ${expenses.length === 1 ? 'expense' : 'expenses'} total`;
@@ -78,7 +86,7 @@ export default function App() {
             )}
           </div>
           <div className="flex gap-3">
-            <Button variant="danger" onClick={handleDeleteSelected} disabled={selectedIds.length === 0}>
+            <Button variant="danger" onClick={() => setIsDeleteModalOpen(true)} disabled={selectedIds.length === 0}>
               <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path
                   fillRule="evenodd"
@@ -127,6 +135,12 @@ export default function App() {
         onClose={handleModalClose}
         onSubmit={handleModalSubmit}
         currentExpense={currentExpense ?? undefined}
+      />
+      <DeleteConfirmModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleDeleteConfirmed}
+        expenses={selectedExpenses}
       />
     </div>
   );
