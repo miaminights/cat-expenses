@@ -13,9 +13,9 @@ const STORAGE_KEY = 'cat-expenses'
 
 function loadFromStorage(): Expense[] {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return []
-    return JSON.parse(raw) as Expense[]
+    const expenseData = localStorage.getItem(STORAGE_KEY)
+    if (!expenseData) return []
+    return JSON.parse(expenseData) as Expense[]
   } catch {
     return []
   }

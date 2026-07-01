@@ -1,44 +1,50 @@
-import { useEffect } from 'react'
-import type { Expense } from '../hooks/useCatExpenseData'
-import { useRandomCatFact } from '../hooks/useRandomCatFact'
-import { ExpenseForm } from './ExpenseForm'
+import { useEffect } from "react";
+import type { Expense } from "../hooks/useCatExpenseData";
+import { useRandomCatFact } from "../hooks/useRandomCatFact";
+import { ExpenseForm } from "./ExpenseForm";
 
 interface ExpenseModalProps {
-  isOpen: boolean
-  onClose: () => void
-  onSubmit: (values: Omit<Expense, 'id'>) => void
-  editingExpense?: Expense
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: (values: Omit<Expense, "id">) => void;
+  currentExpense?: Expense;
 }
 
-export function ExpenseModal({ isOpen, onClose, onSubmit, editingExpense }: ExpenseModalProps) {
-  const isEditing = !!editingExpense
-  const { fact, isLoading, error, fetchFact } = useRandomCatFact()
+export function ExpenseModal({
+  isOpen,
+  onClose,
+  onSubmit,
+  currentExpense,
+}: ExpenseModalProps) {
+  const isEditing = !!currentExpense;
+  const { fact, isLoading, error, fetchFact } = useRandomCatFact();
 
   useEffect(() => {
     if (isOpen) {
-      fetchFact()
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
+      fetchFact();
+      document.body.classList.add("overflow-hidden");
     }
+
     return () => {
-      document.body.style.overflow = ''
-    }
-  }, [isOpen, fetchFact])
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isOpen, fetchFact]);
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') onClose()
+      if (e.key === "Escape") onClose();
     }
-    if (isOpen) document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, onClose])
 
-  if (!isOpen) return null
+    if (isOpen) document.addEventListener("keydown", handleKeyDown);
 
-  function handleSubmit(values: Omit<Expense, 'id'>) {
-    onSubmit(values)
-    onClose()
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  function handleSubmit(values: Omit<Expense, "id">) {
+    onSubmit(values);
+    onClose();
   }
 
   return (
@@ -46,25 +52,23 @@ export function ExpenseModal({ isOpen, onClose, onSubmit, editingExpense }: Expe
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
-      aria-label={isEditing ? 'Edit Expense' : 'Add Expense'}
+      aria-label={isEditing ? "Edit Expense" : "Add Expense"}
     >
-      {/* Backdrop */}
       <div
         className="absolute inset-0 bg-gray-900/50 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden="true"
       />
-
-      {/* Modal card */}
       <div className="relative z-10 w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden">
-        {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
           <div>
             <h2 className="text-lg font-semibold text-gray-900">
-              {isEditing ? 'Edit Expense' : 'Add Expense'}
+              {isEditing ? "Edit Expense" : "Add Expense"}
             </h2>
             <p className="text-sm text-gray-500 mt-0.5">
-              {isEditing ? 'Update this expense' : 'Track a new cat-related purchase'}
+              {isEditing
+                ? "Update this expense"
+                : "Track a new cat-related purchase"}
             </p>
           </div>
           <button
@@ -77,52 +81,54 @@ export function ExpenseModal({ isOpen, onClose, onSubmit, editingExpense }: Expe
             </svg>
           </button>
         </div>
-
-        {/* Cat fact banner */}
         <div className="px-6 py-4 bg-brand-50 border-b border-brand-100">
           <p className="text-xs font-semibold text-brand-800 uppercase tracking-wider mb-1">
             Random Cat Fact
           </p>
-          {isLoading && (
-            <div className="flex items-center gap-2 text-sm text-brand-700">
-              <svg
-                className="w-4 h-4 animate-spin"
-                viewBox="0 0 24 24"
-                fill="none"
-                aria-hidden="true"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8v8H4z"
-                />
-              </svg>
-              Loading a cat fact…
-            </div>
-          )}
-          {error && <p className="text-sm text-red-600 italic">{error}</p>}
-          {fact && <p className="text-sm text-brand-900 italic leading-relaxed">{fact}</p>}
+          <div className="min-h-10">
+            {isLoading && (
+              <div className="flex items-center gap-2 text-sm text-brand-700">
+                <svg
+                  className="w-4 h-4 animate-spin"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8H4z"
+                  />
+                </svg>
+                Loading a cat fact…
+              </div>
+            )}
+            {error && <p className="text-sm text-red-600 italic">{error}</p>}
+            {fact && (
+              <p className="animate-fade-in text-sm italic leading-relaxed text-brand-900">
+                {fact}
+              </p>
+            )}
+          </div>
         </div>
-
-        {/* Form */}
         <div className="px-6 py-6">
           <ExpenseForm
             onSubmit={handleSubmit}
             onCancel={onClose}
             initialValues={
-              editingExpense
+              currentExpense
                 ? {
-                    name: editingExpense.name,
-                    category: editingExpense.category,
-                    amount: editingExpense.amount,
+                    name: currentExpense.name,
+                    category: currentExpense.category,
+                    amount: currentExpense.amount,
                   }
                 : undefined
             }
@@ -130,5 +136,5 @@ export function ExpenseModal({ isOpen, onClose, onSubmit, editingExpense }: Expe
         </div>
       </div>
     </div>
-  )
+  );
 }

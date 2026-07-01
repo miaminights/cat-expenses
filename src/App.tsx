@@ -10,24 +10,24 @@ export default function App() {
   const { expenses, addExpense, updateExpense, deleteExpenses } = useCatExpenseData()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedIds, setSelectedIds] = useState<string[]>([])
-  const [editingExpense, setEditingExpense] = useState<Expense | null>(null)
+  const [currentExpense, setCurrentExpense] = useState<Expense | null>(null)
 
   const topCategories = getTopCategories(expenses)
 
   function handleEditExpense(id: string) {
     const found = expenses.find((e) => e.id === id) ?? null
-    setEditingExpense(found)
+    setCurrentExpense(found)
     setIsModalOpen(true)
   }
 
   function handleModalClose() {
     setIsModalOpen(false)
-    setEditingExpense(null)
+    setCurrentExpense(null)
   }
 
   function handleModalSubmit(values: Omit<Expense, 'id'>) {
-    if (editingExpense) {
-      updateExpense(editingExpense.id, values)
+    if (currentExpense) {
+      updateExpense(currentExpense.id, values)
     } else {
       addExpense(values)
     }
@@ -83,7 +83,7 @@ export default function App() {
               </svg>
               Delete{selectedIds.length > 0 ? ` (${selectedIds.length})` : ''}
             </Button>
-            <Button variant="primary" onClick={() => { setEditingExpense(null); setIsModalOpen(true) }}>
+            <Button variant="primary" onClick={() => { setCurrentExpense(null); setIsModalOpen(true) }}>
               <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
               </svg>
@@ -119,7 +119,7 @@ export default function App() {
         isOpen={isModalOpen}
         onClose={handleModalClose}
         onSubmit={handleModalSubmit}
-        editingExpense={editingExpense ?? undefined}
+        currentExpense={currentExpense ?? undefined}
       />
     </div>
   )

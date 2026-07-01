@@ -42,6 +42,7 @@ export function validateForm(values: ExpenseFormValues): ExpenseFormErrors {
     errors.amount = 'Amount is required.'
   } else {
     const parsed = parseFloat(values.amount)
+
     if (isNaN(parsed)) {
       errors.amount = 'Please enter a valid number.'
     } else if (parsed <= 0) {
@@ -56,12 +57,14 @@ export function ExpenseForm({ onSubmit, onCancel, initialValues }: ExpenseFormPr
   const [values, setValues] = useState<ExpenseFormValues>({
     name: initialValues?.name ?? '',
     category: initialValues?.category ?? '',
-    amount: initialValues?.amount != null ? String(initialValues.amount) : '',
+    amount: initialValues?.amount !== null ? String(initialValues?.amount ?? '') : '',
   })
+
   const [errors, setErrors] = useState<ExpenseFormErrors>({})
 
   function handleChange(field: keyof ExpenseFormValues, value: string) {
     setValues((prev) => ({ ...prev, [field]: value }))
+
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }))
     }
@@ -69,7 +72,9 @@ export function ExpenseForm({ onSubmit, onCancel, initialValues }: ExpenseFormPr
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+
     const validationErrors = validateForm(values)
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors)
       return
