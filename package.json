@@ -16,7 +16,8 @@
     "test:e2e:report": "playwright show-report",
     "test": "vitest run && playwright test",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "clsx": "^2.1.1",
