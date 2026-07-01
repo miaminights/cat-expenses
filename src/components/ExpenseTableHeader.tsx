@@ -30,12 +30,29 @@ export function ExpenseTableHeader({ totalCount, selectedCount, onToggleAll }: E
             )}
           >
             {isChecked && (
-              <svg className="h-2.5 w-2.5 text-white" viewBox="0 0 10 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <svg
+                className="h-2.5 w-2.5 text-white"
+                viewBox="0 0 10 8"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
                 <path d="M1 4L3.5 7 9 1" />
               </svg>
             )}
             {isIndeterminate && (
-              <svg className="h-2.5 w-2.5 text-white" viewBox="0 0 10 2" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+              <svg
+                className="h-2.5 w-2.5 text-white"
+                viewBox="0 0 10 2"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                aria-hidden="true"
+              >
                 <path d="M1 1H9" />
               </svg>
             )}

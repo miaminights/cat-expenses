@@ -41,9 +41,7 @@ export function DeleteConfirmModal({ isOpen, onClose, onConfirm, expenses }: Del
                 {expense.category}
               </span>
             </div>
-            <span className="text-sm font-semibold tabular-nums text-gray-900">
-              {formatCurrency(expense.amount)}
-            </span>
+            <span className="text-sm font-semibold tabular-nums text-gray-900">{formatCurrency(expense.amount)}</span>
           </li>
         ))}
       </ul>
