@@ -81,6 +81,57 @@ describe('ExpenseTable', () => {
     expect(onSelectionChange).toHaveBeenCalledWith(['1']);
   });
 
+  it('calls onSelectionChange with an empty array when a checked row checkbox is clicked', async () => {
+    const onSelectionChange = vi.fn();
+    const expenses = [makeExpense('1', 'Food', 10)];
+    render(
+      <ExpenseTable
+        expenses={expenses}
+        selectedIds={['1']}
+        topCategories={new Set()}
+        onSelectionChange={onSelectionChange}
+        onEdit={vi.fn()}
+        onDuplicate={vi.fn()}
+      />,
+    );
+    await userEvent.click(screen.getByRole('checkbox', { name: /Select Item 1/ }));
+    expect(onSelectionChange).toHaveBeenCalledWith([]);
+  });
+
+  it('calls onEdit with the expense id when the Edit button is clicked', async () => {
+    const onEdit = vi.fn();
+    const expenses = [makeExpense('1', 'Food', 10)];
+    render(
+      <ExpenseTable
+        expenses={expenses}
+        selectedIds={[]}
+        topCategories={new Set()}
+        onSelectionChange={vi.fn()}
+        onEdit={onEdit}
+        onDuplicate={vi.fn()}
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'Edit Item 1' }));
+    expect(onEdit).toHaveBeenCalledWith('1');
+  });
+
+  it('calls onDuplicate with the expense id when the Duplicate button is clicked', async () => {
+    const onDuplicate = vi.fn();
+    const expenses = [makeExpense('1', 'Food', 10)];
+    render(
+      <ExpenseTable
+        expenses={expenses}
+        selectedIds={[]}
+        topCategories={new Set()}
+        onSelectionChange={vi.fn()}
+        onEdit={vi.fn()}
+        onDuplicate={onDuplicate}
+      />,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'Duplicate Item 1' }));
+    expect(onDuplicate).toHaveBeenCalledWith('1');
+  });
+
   it('calls onSelectionChange with all ids when select-all is checked', async () => {
     const onSelectionChange = vi.fn();
     const expenses = [makeExpense('1', 'Food', 10), makeExpense('2', 'Accessory', 20)];

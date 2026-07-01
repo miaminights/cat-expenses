@@ -70,6 +70,131 @@ describe('useCatExpenseData', () => {
     });
   });
 
+  describe('updateExpense', () => {
+    it('replaces the matching expense with the new values', () => {
+      const { result } = renderHook(() => useCatExpenseData());
+
+      act(() => {
+        result.current.addExpense({ name: 'Cat Toy', category: 'Accessory', amount: 9.99 });
+      });
+
+      const id = result.current.expenses[0].id;
+      act(() => {
+        result.current.updateExpense(id, { name: 'Fancy Cat Toy', category: 'Accessory', amount: 14.99 });
+      });
+
+      expect(result.current.expenses).toHaveLength(1);
+      expect(result.current.expenses[0]).toMatchObject({
+        id,
+        name: 'Fancy Cat Toy',
+        category: 'Accessory',
+        amount: 14.99,
+      });
+    });
+
+    it('preserves the original id after an update', () => {
+      const { result } = renderHook(() => useCatExpenseData());
+
+      act(() => {
+        result.current.addExpense({ name: 'Cat Toy', category: 'Accessory', amount: 9.99 });
+      });
+
+      const id = result.current.expenses[0].id;
+      act(() => {
+        result.current.updateExpense(id, { name: 'Updated', category: 'Food', amount: 5 });
+      });
+
+      expect(result.current.expenses[0].id).toBe(id);
+    });
+
+    it('only updates the matching expense and leaves others unchanged', () => {
+      const { result } = renderHook(() => useCatExpenseData());
+
+      act(() => {
+        result.current.addExpense({ name: 'A', category: 'Food', amount: 10 });
+        result.current.addExpense({ name: 'B', category: 'Accessory', amount: 20 });
+      });
+
+      const idToUpdate = result.current.expenses[0].id;
+      act(() => {
+        result.current.updateExpense(idToUpdate, { name: 'A Updated', category: 'Food', amount: 15 });
+      });
+
+      expect(result.current.expenses[0].name).toBe('A Updated');
+      expect(result.current.expenses[1].name).toBe('B');
+    });
+  });
+
+  describe('duplicateExpense', () => {
+    it('inserts a copy immediately after the original', () => {
+      const { result } = renderHook(() => useCatExpenseData());
+
+      act(() => {
+        result.current.addExpense({ name: 'Cat Toy', category: 'Accessory', amount: 9.99 });
+        result.current.addExpense({ name: 'Cat Bed', category: 'Furniture', amount: 50 });
+      });
+
+      const idToDuplicate = result.current.expenses[0].id;
+      act(() => {
+        result.current.duplicateExpense(idToDuplicate);
+      });
+
+      expect(result.current.expenses).toHaveLength(3);
+      expect(result.current.expenses[0].name).toBe('Cat Toy');
+      expect(result.current.expenses[1].name).toBe('Cat Toy');
+      expect(result.current.expenses[2].name).toBe('Cat Bed');
+    });
+
+    it('gives the duplicate a different id from the original', () => {
+      const { result } = renderHook(() => useCatExpenseData());
+
+      act(() => {
+        result.current.addExpense({ name: 'Cat Toy', category: 'Accessory', amount: 9.99 });
+      });
+
+      const originalId = result.current.expenses[0].id;
+      act(() => {
+        result.current.duplicateExpense(originalId);
+      });
+
+      expect(result.current.expenses[1].id).toBeDefined();
+      expect(result.current.expenses[1].id).not.toBe(originalId);
+    });
+
+    it('copies the name, category, and amount from the original', () => {
+      const { result } = renderHook(() => useCatExpenseData());
+
+      act(() => {
+        result.current.addExpense({ name: 'Cat Toy', category: 'Accessory', amount: 9.99 });
+      });
+
+      const originalId = result.current.expenses[0].id;
+      act(() => {
+        result.current.duplicateExpense(originalId);
+      });
+
+      expect(result.current.expenses[1]).toMatchObject({
+        name: 'Cat Toy',
+        category: 'Accessory',
+        amount: 9.99,
+      });
+    });
+
+    it('is a no-op when the given id does not exist', () => {
+      const { result } = renderHook(() => useCatExpenseData());
+
+      act(() => {
+        result.current.addExpense({ name: 'Cat Toy', category: 'Accessory', amount: 9.99 });
+      });
+
+      act(() => {
+        result.current.duplicateExpense('nonexistent-id');
+      });
+
+      expect(result.current.expenses).toHaveLength(1);
+    });
+  });
+
   describe('deleteExpenses', () => {
     it('removes the expense with the given id', () => {
       const { result } = renderHook(() => useCatExpenseData());
