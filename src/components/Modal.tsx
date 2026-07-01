@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
 import type { ReactNode, Ref } from 'react';
+import { useEffect } from 'react';
+
 import { AutoFocus } from './AutoFocus';
 
 interface ModalProps {

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 const CURRENCY_COOKIE = 'preferred_currency';
 const MOCK_CAT_FACT = 'Cats sleep 16 hours a day.';
@@ -35,9 +35,7 @@ test.describe('Currency selector persistence', () => {
   });
 
   test('loads the currency from a pre-existing cookie on first visit', async ({ page, context }) => {
-    await context.addCookies([
-      { name: CURRENCY_COOKIE, value: 'GBP', domain: 'localhost', path: '/' },
-    ]);
+    await context.addCookies([{ name: CURRENCY_COOKIE, value: 'GBP', domain: 'localhost', path: '/' }]);
 
     await page.reload();
 

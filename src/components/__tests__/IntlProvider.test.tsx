@@ -1,6 +1,7 @@
-import { render, screen, act } from '@testing-library/react';
+import { act,render, screen } from '@testing-library/react';
 import { useContext } from 'react';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach,describe, expect, it, vi } from 'vitest';
+
 import { IntlContext, IntlProvider } from '../IntlProvider';
 
 const { mockGet, mockSet } = vi.hoisted(() => ({

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useCallback,useState } from 'react';
 
 interface CatFactState {
   fact: string | null;

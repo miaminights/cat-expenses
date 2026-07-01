@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
-import { IntlContext } from '../IntlProvider';
+import { beforeEach,describe, expect, it, vi } from 'vitest';
+
 import { CurrencySelector } from '../CurrencySelector';
+import { IntlContext } from '../IntlProvider';
 
 vi.mock('../../utils/intlUtils', () => ({
   getCurrencyOptions: () => [

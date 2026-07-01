@@ -1,5 +1,5 @@
-import { getTopCategories } from '../categoryUtils';
 import type { Expense } from '../../hooks/useCatExpenseData';
+import { getTopCategories } from '../categoryUtils';
 
 const expense = (id: string, category: Expense['category'], amount: number): Expense => ({
   id,

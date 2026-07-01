@@ -1,13 +1,14 @@
 import { useContext, useMemo, useState } from 'react';
-import { IntlContext } from './components/IntlProvider';
-import { useCatExpenseData } from './hooks/useCatExpenseData';
-import { getTopCategories } from './utils/categoryUtils';
+
 import { Button } from './components/Button';
 import { CurrencySelector } from './components/CurrencySelector';
-import { ExpenseTable } from './components/ExpenseTable';
 import { DeleteConfirmModal } from './components/DeleteConfirmModal';
 import { ExpenseModal } from './components/ExpenseModal';
+import { ExpenseTable } from './components/ExpenseTable';
+import { IntlContext } from './components/IntlProvider';
 import type { Expense } from './hooks/useCatExpenseData';
+import { useCatExpenseData } from './hooks/useCatExpenseData';
+import { getTopCategories } from './utils/categoryUtils';
 
 export default function App() {
   const { formatCurrency } = useContext(IntlContext);

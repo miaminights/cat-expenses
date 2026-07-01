@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
 
 // All tests run in both 'desktop' and 'mobile' Playwright projects
 // (defined in playwright.config.ts) without any code changes needed here.

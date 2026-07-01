@@ -1,6 +1,6 @@
-import { createContext, useCallback, useMemo, useState } from 'react';
-import type { ReactNode } from 'react';
 import Cookies from 'js-cookie';
+import type { ReactNode } from 'react';
+import { createContext, useCallback, useMemo, useState } from 'react';
 
 const CURRENCY_COOKIE = 'preferred_currency';
 

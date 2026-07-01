@@ -1,7 +1,8 @@
+import clsx from 'clsx';
 import { useContext } from 'react';
+
 import type { Expense } from '../hooks/useCatExpenseData';
 import { IntlContext } from './IntlProvider';
-import clsx from 'clsx';
 
 const CATEGORY_BADGES: Record<Expense['category'], string> = {
   Food: 'bg-orange-100 text-orange-700',
