@@ -21,7 +21,7 @@ describe('ExpenseTableHeader', () => {
     });
     const checkbox = screen.getByRole('checkbox');
     expect(checkbox).not.toBeChecked();
-    expect((checkbox as HTMLInputElement).indeterminate).toBe(false);
+    expect(checkbox).toHaveAttribute('aria-checked', 'false');
   });
 
   it('checkbox is checked when all expenses are selected', () => {
@@ -36,8 +36,7 @@ describe('ExpenseTableHeader', () => {
       wrapper,
     });
     const checkbox = screen.getByRole('checkbox');
-    expect(checkbox).not.toBeChecked();
-    expect((checkbox as HTMLInputElement).indeterminate).toBe(true);
+    expect(checkbox).toHaveAttribute('aria-checked', 'mixed');
   });
 
   it('checkbox is disabled when there are no expenses', () => {

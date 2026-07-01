@@ -46,3 +46,6 @@ test-results
 
 # Build output
 dist
+
+# Mac system files
+.DS_Store

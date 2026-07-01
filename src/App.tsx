@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useCatExpenseData } from './hooks/useCatExpenseData';
 import { getTopCategories } from './utils/categoryUtils';
 import { Button } from './components/Button';
@@ -13,6 +13,10 @@ export default function App() {
   const [currentExpense, setCurrentExpense] = useState<Expense | null>(null);
 
   const topCategories = getTopCategories(expenses);
+
+  const expensesTotalAmount = useMemo(() => {
+    return expenses.reduce((total, expense) => total + expense.amount, 0);
+  }, [expenses.length]);
 
   function handleEditExpense(id: string) {
     const found = expenses.find((e) => e.id === id) ?? null;
@@ -38,6 +42,13 @@ export default function App() {
     setSelectedIds([]);
   }
 
+  const totalExpensesLabel = `${expenses.length} ${expenses.length === 1 ? 'expense' : 'expenses'} total`;
+  const totalAmountLabel = `$${expensesTotalAmount.toFixed(2)} spent`;
+  const mainTitle =
+    expenses.length > 0 && expensesTotalAmount > 0
+      ? `Expense Tracker, ${totalExpensesLabel}, ${totalAmountLabel}`
+      : `Expense Tracker`;
+
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
       <header className="bg-brand-900 text-white shadow-sm">
@@ -53,14 +64,16 @@ export default function App() {
       </header>
       <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-6 py-8">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
+          <div
+            tabIndex={0}
+            className="rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2"
+            aria-label={mainTitle}
+          >
             <h2 className="text-lg font-semibold text-gray-900">Expense Tracker</h2>
             {expenses.length > 0 && (
               <p className="mt-0.5 text-sm text-gray-500">
-                {expenses.length} {expenses.length === 1 ? 'expense' : 'expenses'} total
-                {selectedIds.length > 0 && (
-                  <span className="ml-2 font-medium text-brand-700">· {selectedIds.length} selected</span>
-                )}
+                {totalExpensesLabel}
+                {totalAmountLabel && <span className="ml-2 font-medium text-brand-700">· {totalAmountLabel}</span>}
               </p>
             )}
           </div>

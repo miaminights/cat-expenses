@@ -77,7 +77,7 @@ describe('ExpenseTable', () => {
         onDuplicate={vi.fn()}
       />,
     );
-    await userEvent.click(screen.getByRole('checkbox', { name: 'Select Item 1' }));
+    await userEvent.click(screen.getByRole('checkbox', { name: /Select Item 1/ }));
     expect(onSelectionChange).toHaveBeenCalledWith(['1']);
   });
 
