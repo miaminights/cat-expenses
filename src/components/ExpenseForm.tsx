@@ -1,56 +1,56 @@
-import { useState } from 'react'
-import type { Category, Expense } from '../hooks/useCatExpenseData'
-import { Button } from './Button'
-import { FormField } from './FormField'
-import { Input } from './Input'
-import { Select } from './Select'
+import { useState } from 'react';
+import type { Category, Expense } from '../hooks/useCatExpenseData';
+import { Button } from './Button';
+import { FormField } from './FormField';
+import { Input } from './Input';
+import { Select } from './Select';
 
 export interface ExpenseFormValues {
-  name: string
-  category: Category | ''
-  amount: string
+  name: string;
+  category: Category | '';
+  amount: string;
 }
 
 export interface ExpenseFormErrors {
-  name?: string
-  category?: string
-  amount?: string
+  name?: string;
+  category?: string;
+  amount?: string;
 }
 
-const CATEGORIES: Category[] = ['Food', 'Furniture', 'Accessory']
+const CATEGORIES: Category[] = ['Food', 'Furniture', 'Accessory'];
 
 interface ExpenseFormProps {
-  onSubmit: (values: Omit<Expense, 'id'>) => void
-  onCancel: () => void
-  initialValues?: Omit<Expense, 'id'>
+  onSubmit: (values: Omit<Expense, 'id'>) => void;
+  onCancel: () => void;
+  initialValues?: Omit<Expense, 'id'>;
 }
 
 export function validateForm(values: ExpenseFormValues): ExpenseFormErrors {
-  const errors: ExpenseFormErrors = {}
+  const errors: ExpenseFormErrors = {};
 
   if (!values.name.trim()) {
-    errors.name = 'Item name is required.'
+    errors.name = 'Item name is required.';
   } else if (values.name.trim().length > 100) {
-    errors.name = 'Item name must be 100 characters or fewer.'
+    errors.name = 'Item name must be 100 characters or fewer.';
   }
 
   if (!values.category) {
-    errors.category = 'Please select a category.'
+    errors.category = 'Please select a category.';
   }
 
   if (!values.amount.trim()) {
-    errors.amount = 'Amount is required.'
+    errors.amount = 'Amount is required.';
   } else {
-    const parsed = parseFloat(values.amount)
+    const parsed = parseFloat(values.amount);
 
     if (isNaN(parsed)) {
-      errors.amount = 'Please enter a valid number.'
+      errors.amount = 'Please enter a valid number.';
     } else if (parsed <= 0) {
-      errors.amount = 'Amount must be greater than zero.'
+      errors.amount = 'Amount must be greater than zero.';
     }
   }
 
-  return errors
+  return errors;
 }
 
 export function ExpenseForm({ onSubmit, onCancel, initialValues }: ExpenseFormProps) {
@@ -58,36 +58,36 @@ export function ExpenseForm({ onSubmit, onCancel, initialValues }: ExpenseFormPr
     name: initialValues?.name ?? '',
     category: initialValues?.category ?? '',
     amount: initialValues?.amount !== null ? String(initialValues?.amount ?? '') : '',
-  })
+  });
 
-  const [errors, setErrors] = useState<ExpenseFormErrors>({})
+  const [errors, setErrors] = useState<ExpenseFormErrors>({});
 
   function handleChange(field: keyof ExpenseFormValues, value: string) {
-    setValues((prev) => ({ ...prev, [field]: value }))
+    setValues((prev) => ({ ...prev, [field]: value }));
 
     if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }))
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
   }
 
   function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
+    e.preventDefault();
 
-    const validationErrors = validateForm(values)
+    const validationErrors = validateForm(values);
 
     if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors)
-      return
+      setErrors(validationErrors);
+      return;
     }
 
     onSubmit({
       name: values.name.trim(),
       category: values.category as Category,
       amount: parseFloat(values.amount),
-    })
+    });
 
-    setValues({ name: '', category: '', amount: '' })
-    setErrors({})
+    setValues({ name: '', category: '', amount: '' });
+    setErrors({});
   }
 
   return (
@@ -122,7 +122,7 @@ export function ExpenseForm({ onSubmit, onCancel, initialValues }: ExpenseFormPr
             ))}
           </Select>
           <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
-            <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+            <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
               <path
                 fillRule="evenodd"
                 d="M5.22 8.22a.75.75 0 011.06 0L10 11.94l3.72-3.72a.75.75 0 111.06 1.06l-4.25 4.25a.75.75 0 01-1.06 0L5.22 9.28a.75.75 0 010-1.06z"
@@ -135,7 +135,7 @@ export function ExpenseForm({ onSubmit, onCancel, initialValues }: ExpenseFormPr
 
       <FormField label="Amount" error={errors.amount} htmlFor="expense-amount">
         <div className="relative">
-          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-medium">
+          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400">
             $
           </span>
           <Input
@@ -160,5 +160,5 @@ export function ExpenseForm({ onSubmit, onCancel, initialValues }: ExpenseFormPr
         </Button>
       </div>
     </form>
-  )
+  );
 }

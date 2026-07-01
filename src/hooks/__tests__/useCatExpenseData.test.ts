@@ -1,139 +1,139 @@
-import { renderHook, act } from '@testing-library/react'
-import { useCatExpenseData } from '../useCatExpenseData'
+import { renderHook, act } from '@testing-library/react';
+import { useCatExpenseData } from '../useCatExpenseData';
 
-const STORAGE_KEY = 'cat-expenses'
+const STORAGE_KEY = 'cat-expenses';
 
 beforeEach(() => {
-  localStorage.clear()
-})
+  localStorage.clear();
+});
 
 describe('useCatExpenseData', () => {
   it('initializes with an empty list when localStorage has no data', () => {
-    const { result } = renderHook(() => useCatExpenseData())
-    expect(result.current.expenses).toEqual([])
-  })
+    const { result } = renderHook(() => useCatExpenseData());
+    expect(result.current.expenses).toEqual([]);
+  });
 
   it('loads existing expenses from localStorage on mount', () => {
-    const seed = [{ id: 'abc', name: 'Cat Food', category: 'Food', amount: 10 }]
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(seed))
+    const seed = [{ id: 'abc', name: 'Cat Food', category: 'Food', amount: 10 }];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(seed));
 
-    const { result } = renderHook(() => useCatExpenseData())
-    expect(result.current.expenses).toEqual(seed)
-  })
+    const { result } = renderHook(() => useCatExpenseData());
+    expect(result.current.expenses).toEqual(seed);
+  });
 
   it('returns an empty list when localStorage contains invalid JSON', () => {
-    localStorage.setItem(STORAGE_KEY, 'not-valid-json')
-    const { result } = renderHook(() => useCatExpenseData())
-    expect(result.current.expenses).toEqual([])
-  })
+    localStorage.setItem(STORAGE_KEY, 'not-valid-json');
+    const { result } = renderHook(() => useCatExpenseData());
+    expect(result.current.expenses).toEqual([]);
+  });
 
   describe('addExpense', () => {
     it('appends the new expense to the list', () => {
-      const { result } = renderHook(() => useCatExpenseData())
+      const { result } = renderHook(() => useCatExpenseData());
 
       act(() => {
-        result.current.addExpense({ name: 'Cat Toy', category: 'Accessory', amount: 9.99 })
-      })
+        result.current.addExpense({ name: 'Cat Toy', category: 'Accessory', amount: 9.99 });
+      });
 
-      expect(result.current.expenses).toHaveLength(1)
+      expect(result.current.expenses).toHaveLength(1);
       expect(result.current.expenses[0]).toMatchObject({
         name: 'Cat Toy',
         category: 'Accessory',
         amount: 9.99,
-      })
-    })
+      });
+    });
 
     it('assigns a unique id to each expense', () => {
-      const { result } = renderHook(() => useCatExpenseData())
+      const { result } = renderHook(() => useCatExpenseData());
 
       act(() => {
-        result.current.addExpense({ name: 'A', category: 'Food', amount: 1 })
-        result.current.addExpense({ name: 'B', category: 'Food', amount: 2 })
-      })
+        result.current.addExpense({ name: 'A', category: 'Food', amount: 1 });
+        result.current.addExpense({ name: 'B', category: 'Food', amount: 2 });
+      });
 
-      const [first, second] = result.current.expenses
-      expect(first.id).toBeDefined()
-      expect(second.id).toBeDefined()
-      expect(first.id).not.toBe(second.id)
-    })
+      const [first, second] = result.current.expenses;
+      expect(first.id).toBeDefined();
+      expect(second.id).toBeDefined();
+      expect(first.id).not.toBe(second.id);
+    });
 
     it('persists the new expense to localStorage', () => {
-      const { result } = renderHook(() => useCatExpenseData())
+      const { result } = renderHook(() => useCatExpenseData());
 
       act(() => {
-        result.current.addExpense({ name: 'Cat Bed', category: 'Furniture', amount: 80 })
-      })
+        result.current.addExpense({ name: 'Cat Bed', category: 'Furniture', amount: 80 });
+      });
 
-      const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]')
-      expect(stored).toHaveLength(1)
-      expect(stored[0]).toMatchObject({ name: 'Cat Bed', category: 'Furniture', amount: 80 })
-    })
-  })
+      const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]');
+      expect(stored).toHaveLength(1);
+      expect(stored[0]).toMatchObject({ name: 'Cat Bed', category: 'Furniture', amount: 80 });
+    });
+  });
 
   describe('deleteExpenses', () => {
     it('removes the expense with the given id', () => {
-      const { result } = renderHook(() => useCatExpenseData())
+      const { result } = renderHook(() => useCatExpenseData());
 
       act(() => {
-        result.current.addExpense({ name: 'A', category: 'Food', amount: 10 })
-        result.current.addExpense({ name: 'B', category: 'Accessory', amount: 20 })
-      })
+        result.current.addExpense({ name: 'A', category: 'Food', amount: 10 });
+        result.current.addExpense({ name: 'B', category: 'Accessory', amount: 20 });
+      });
 
-      const idToDelete = result.current.expenses[0].id
+      const idToDelete = result.current.expenses[0].id;
       act(() => {
-        result.current.deleteExpenses([idToDelete])
-      })
+        result.current.deleteExpenses([idToDelete]);
+      });
 
-      expect(result.current.expenses).toHaveLength(1)
-      expect(result.current.expenses[0].name).toBe('B')
-    })
+      expect(result.current.expenses).toHaveLength(1);
+      expect(result.current.expenses[0].name).toBe('B');
+    });
 
     it('removes multiple expenses at once', () => {
-      const { result } = renderHook(() => useCatExpenseData())
+      const { result } = renderHook(() => useCatExpenseData());
 
       act(() => {
-        result.current.addExpense({ name: 'A', category: 'Food', amount: 10 })
-        result.current.addExpense({ name: 'B', category: 'Accessory', amount: 20 })
-        result.current.addExpense({ name: 'C', category: 'Furniture', amount: 30 })
-      })
+        result.current.addExpense({ name: 'A', category: 'Food', amount: 10 });
+        result.current.addExpense({ name: 'B', category: 'Accessory', amount: 20 });
+        result.current.addExpense({ name: 'C', category: 'Furniture', amount: 30 });
+      });
 
-      const idsToDelete = result.current.expenses.slice(0, 2).map((e) => e.id)
+      const idsToDelete = result.current.expenses.slice(0, 2).map((e) => e.id);
       act(() => {
-        result.current.deleteExpenses(idsToDelete)
-      })
+        result.current.deleteExpenses(idsToDelete);
+      });
 
-      expect(result.current.expenses).toHaveLength(1)
-      expect(result.current.expenses[0].name).toBe('C')
-    })
+      expect(result.current.expenses).toHaveLength(1);
+      expect(result.current.expenses[0].name).toBe('C');
+    });
 
     it('persists the deletion to localStorage', () => {
-      const { result } = renderHook(() => useCatExpenseData())
+      const { result } = renderHook(() => useCatExpenseData());
 
       act(() => {
-        result.current.addExpense({ name: 'A', category: 'Food', amount: 10 })
-      })
+        result.current.addExpense({ name: 'A', category: 'Food', amount: 10 });
+      });
 
-      const id = result.current.expenses[0].id
+      const id = result.current.expenses[0].id;
       act(() => {
-        result.current.deleteExpenses([id])
-      })
+        result.current.deleteExpenses([id]);
+      });
 
-      const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]')
-      expect(stored).toHaveLength(0)
-    })
+      const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]');
+      expect(stored).toHaveLength(0);
+    });
 
     it('is a no-op when the given id does not exist', () => {
-      const { result } = renderHook(() => useCatExpenseData())
+      const { result } = renderHook(() => useCatExpenseData());
 
       act(() => {
-        result.current.addExpense({ name: 'A', category: 'Food', amount: 10 })
-      })
+        result.current.addExpense({ name: 'A', category: 'Food', amount: 10 });
+      });
 
       act(() => {
-        result.current.deleteExpenses(['nonexistent-id'])
-      })
+        result.current.deleteExpenses(['nonexistent-id']);
+      });
 
-      expect(result.current.expenses).toHaveLength(1)
-    })
-  })
-})
+      expect(result.current.expenses).toHaveLength(1);
+    });
+  });
+});

@@ -9,13 +9,8 @@ export function Input({ hasError = false, className, ...props }: InputProps) {
   const classnames = useInputClassNames({
     hasError,
     className,
-    extra: "placeholder:text-gray-400",
+    extra: 'placeholder:text-gray-400',
   });
 
-  return (
-    <input
-      {...props}
-      className={classnames}
-    />
-  );
+  return <input {...props} className={classnames} />;
 }

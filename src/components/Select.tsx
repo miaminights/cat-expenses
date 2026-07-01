@@ -9,14 +9,11 @@ export function Select({ hasError = false, className, children, ...props }: Sele
   const classnames = useInputClassNames({
     hasError,
     className,
-    extra: "appearance-none cursor-pointer",
+    extra: 'appearance-none cursor-pointer',
   });
 
   return (
-    <select
-      {...props}
-      className={classnames}
-    >
+    <select {...props} className={classnames}>
       {children}
     </select>
   );
