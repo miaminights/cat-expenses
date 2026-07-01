@@ -1,6 +1,7 @@
 import { useContext, useMemo } from 'react';
-import { IntlContext } from './IntlProvider';
+
 import { getCurrencyOptions } from '../utils/intlUtils';
+import { IntlContext } from './IntlProvider';
 
 export function CurrencySelector() {
   const { currency, setCurrency } = useContext(IntlContext);

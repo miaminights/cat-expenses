@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
+
 import type { Expense } from '../hooks/useCatExpenseData';
 import { useRandomCatFact } from '../hooks/useRandomCatFact';
-import { Modal } from './Modal';
 import { ExpenseForm } from './ExpenseForm';
+import { Modal } from './Modal';
 
 interface ExpenseModalProps {
   isOpen: boolean;

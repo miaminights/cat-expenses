@@ -1,5 +1,6 @@
-import { renderHook, act } from '@testing-library/react';
+import { act,renderHook } from '@testing-library/react';
 import { vi } from 'vitest';
+
 import { useRandomCatFact } from '../useRandomCatFact';
 
 function mockFetch(response: Partial<Response> & { json?: () => Promise<unknown> }) {

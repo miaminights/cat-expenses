@@ -1,4 +1,5 @@
-import { InputHTMLAttributes } from 'react';
+import type { InputHTMLAttributes } from 'react';
+
 import { useInputClassNames } from '../hooks/useInputClassNames';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {

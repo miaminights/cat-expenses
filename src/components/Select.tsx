@@ -1,4 +1,5 @@
-import { SelectHTMLAttributes } from 'react';
+import type { SelectHTMLAttributes } from 'react';
+
 import { useInputClassNames } from '../hooks/useInputClassNames';
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {

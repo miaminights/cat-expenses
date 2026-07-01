@@ -1,9 +1,10 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent,render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
-import { ExpenseModal } from '../ExpenseModal';
+
 import type { Expense } from '../../hooks/useCatExpenseData';
 import { useRandomCatFact } from '../../hooks/useRandomCatFact';
+import { ExpenseModal } from '../ExpenseModal';
 
 vi.mock('../../hooks/useRandomCatFact');
 

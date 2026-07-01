@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import type { Ref } from 'react';
+
 import { AutoFocus } from '../AutoFocus';
 
 describe('AutoFocus', () => {

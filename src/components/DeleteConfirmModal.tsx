@@ -1,8 +1,9 @@
-import { useContext } from 'react';
 import clsx from 'clsx';
+import { useContext } from 'react';
+
 import type { Expense } from '../hooks/useCatExpenseData';
-import { IntlContext } from './IntlProvider';
 import { Button } from './Button';
+import { IntlContext } from './IntlProvider';
 import { Modal } from './Modal';
 
 const CATEGORY_BADGES: Record<Expense['category'], string> = {
