@@ -1,13 +1,13 @@
-import type { Category, Expense } from '../hooks/useCatExpenseData'
-import { ExpenseTableHeader } from './ExpenseTableHeader'
-import { ExpenseTableRow } from './ExpenseTableRow'
+import type { Category, Expense } from '../hooks/useCatExpenseData';
+import { ExpenseTableHeader } from './ExpenseTableHeader';
+import { ExpenseTableRow } from './ExpenseTableRow';
 
 interface ExpenseTableProps {
-  expenses: Expense[]
-  selectedIds: string[]
-  topCategories: Set<Category>
-  onSelectionChange: (selectedIds: string[]) => void
-  onEdit: (id: string) => void
+  expenses: Expense[];
+  selectedIds: string[];
+  topCategories: Set<Category>;
+  onSelectionChange: (selectedIds: string[]) => void;
+  onEdit: (id: string) => void;
 }
 
 export function ExpenseTable({
@@ -17,34 +17,34 @@ export function ExpenseTable({
   onSelectionChange,
   onEdit,
 }: ExpenseTableProps) {
-  const selectedSet = new Set(selectedIds)
+  const selectedSet = new Set(selectedIds);
 
   function handleToggleRow(id: string) {
-    const next = new Set(selectedSet)
+    const next = new Set(selectedSet);
     if (next.has(id)) {
-      next.delete(id)
+      next.delete(id);
     } else {
-      next.add(id)
+      next.add(id);
     }
-    onSelectionChange([...next])
+    onSelectionChange([...next]);
   }
 
   function handleToggleAll(checked: boolean) {
-    onSelectionChange(checked ? expenses.map((e) => e.id) : [])
+    onSelectionChange(checked ? expenses.map((e) => e.id) : []);
   }
 
   if (expenses.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
-        <div className="text-5xl mb-4" aria-hidden="true">
+        <div className="mb-4 text-5xl" aria-hidden="true">
           🐱
         </div>
         <p className="text-base font-medium text-gray-700">No expenses yet</p>
-        <p className="text-sm text-gray-400 mt-1">
+        <p className="mt-1 text-sm text-gray-400">
           Click <span className="font-medium text-brand-800">Add Expense</span> to get started.
         </p>
       </div>
-    )
+    );
   }
 
   return (
@@ -69,5 +69,5 @@ export function ExpenseTable({
         </tbody>
       </table>
     </div>
-  )
+  );
 }
