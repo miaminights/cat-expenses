@@ -22,6 +22,7 @@ const CATEGORIES: Category[] = ['Food', 'Furniture', 'Accessory']
 interface ExpenseFormProps {
   onSubmit: (values: Omit<Expense, 'id'>) => void
   onCancel: () => void
+  initialValues?: Omit<Expense, 'id'>
 }
 
 export function validateForm(values: ExpenseFormValues): ExpenseFormErrors {
@@ -51,11 +52,11 @@ export function validateForm(values: ExpenseFormValues): ExpenseFormErrors {
   return errors
 }
 
-export function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
+export function ExpenseForm({ onSubmit, onCancel, initialValues }: ExpenseFormProps) {
   const [values, setValues] = useState<ExpenseFormValues>({
-    name: '',
-    category: '',
-    amount: '',
+    name: initialValues?.name ?? '',
+    category: initialValues?.category ?? '',
+    amount: initialValues?.amount != null ? String(initialValues.amount) : '',
   })
   const [errors, setErrors] = useState<ExpenseFormErrors>({})
 
@@ -150,7 +151,7 @@ export function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
           Cancel
         </Button>
         <Button type="submit" variant="primary" className="flex-1">
-          Add Expense
+          {initialValues ? 'Save Changes' : 'Add Expense'}
         </Button>
       </div>
     </form>

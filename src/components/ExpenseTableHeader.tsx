@@ -44,6 +44,7 @@ export function ExpenseTableHeader({
         <th className="px-4 py-3.5 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">
           Amount
         </th>
+        <th className="w-12 px-4 py-3.5" aria-label="Actions" />
       </tr>
     </thead>
   )

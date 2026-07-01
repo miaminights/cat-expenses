@@ -33,10 +33,14 @@ export function useCatExpenseData() {
     setExpenses((prev) => [...prev, newExpense])
   }
 
+  function updateExpense(id: string, values: Omit<Expense, 'id'>) {
+    setExpenses((prev) => prev.map((e) => (e.id === id ? { ...values, id } : e)))
+  }
+
   function deleteExpenses(ids: string[]) {
     const idSet = new Set(ids)
     setExpenses((prev) => prev.filter((e) => !idSet.has(e.id)))
   }
 
-  return { expenses, addExpense, deleteExpenses }
+  return { expenses, addExpense, updateExpense, deleteExpenses }
 }

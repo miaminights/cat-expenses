@@ -7,9 +7,11 @@ interface ExpenseModalProps {
   isOpen: boolean
   onClose: () => void
   onSubmit: (values: Omit<Expense, 'id'>) => void
+  editingExpense?: Expense
 }
 
-export function ExpenseModal({ isOpen, onClose, onSubmit }: ExpenseModalProps) {
+export function ExpenseModal({ isOpen, onClose, onSubmit, editingExpense }: ExpenseModalProps) {
+  const isEditing = !!editingExpense
   const { fact, isLoading, error, fetchFact } = useRandomCatFact()
 
   useEffect(() => {
@@ -44,7 +46,7 @@ export function ExpenseModal({ isOpen, onClose, onSubmit }: ExpenseModalProps) {
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
-      aria-label="Add Expense"
+      aria-label={isEditing ? 'Edit Expense' : 'Add Expense'}
     >
       {/* Backdrop */}
       <div
@@ -58,8 +60,12 @@ export function ExpenseModal({ isOpen, onClose, onSubmit }: ExpenseModalProps) {
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">Add Expense</h2>
-            <p className="text-sm text-gray-500 mt-0.5">Track a new cat-related purchase</p>
+            <h2 className="text-lg font-semibold text-gray-900">
+              {isEditing ? 'Edit Expense' : 'Add Expense'}
+            </h2>
+            <p className="text-sm text-gray-500 mt-0.5">
+              {isEditing ? 'Update this expense' : 'Track a new cat-related purchase'}
+            </p>
           </div>
           <button
             onClick={onClose}
@@ -108,7 +114,19 @@ export function ExpenseModal({ isOpen, onClose, onSubmit }: ExpenseModalProps) {
 
         {/* Form */}
         <div className="px-6 py-6">
-          <ExpenseForm onSubmit={handleSubmit} onCancel={onClose} />
+          <ExpenseForm
+            onSubmit={handleSubmit}
+            onCancel={onClose}
+            initialValues={
+              editingExpense
+                ? {
+                    name: editingExpense.name,
+                    category: editingExpense.category,
+                    amount: editingExpense.amount,
+                  }
+                : undefined
+            }
+          />
         </div>
       </div>
     </div>
