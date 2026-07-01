@@ -20,6 +20,7 @@ describe('ExpenseTable', () => {
         topCategories={new Set()}
         onSelectionChange={vi.fn()}
         onEdit={vi.fn()}
+        onDuplicate={vi.fn()}
       />,
     )
     expect(screen.getByText('No expenses yet')).toBeInTheDocument()
@@ -34,6 +35,7 @@ describe('ExpenseTable', () => {
         topCategories={new Set()}
         onSelectionChange={vi.fn()}
         onEdit={vi.fn()}
+        onDuplicate={vi.fn()}
       />,
     )
     expect(screen.getByText('Item 1')).toBeInTheDocument()
@@ -49,6 +51,7 @@ describe('ExpenseTable', () => {
         topCategories={new Set(['Accessory'])}
         onSelectionChange={vi.fn()}
         onEdit={vi.fn()}
+        onDuplicate={vi.fn()}
       />,
     )
     // The TOP badge only appears on Accessory rows
@@ -71,6 +74,7 @@ describe('ExpenseTable', () => {
         topCategories={new Set()}
         onSelectionChange={onSelectionChange}
         onEdit={vi.fn()}
+        onDuplicate={vi.fn()}
       />,
     )
     await userEvent.click(screen.getByRole('checkbox', { name: 'Select Item 1' }))
@@ -87,6 +91,7 @@ describe('ExpenseTable', () => {
         topCategories={new Set()}
         onSelectionChange={onSelectionChange}
         onEdit={vi.fn()}
+        onDuplicate={vi.fn()}
       />,
     )
     await userEvent.click(screen.getByRole('checkbox', { name: 'Select all expenses' }))
@@ -103,6 +108,7 @@ describe('ExpenseTable', () => {
         topCategories={new Set()}
         onSelectionChange={onSelectionChange}
         onEdit={vi.fn()}
+        onDuplicate={vi.fn()}
       />,
     )
     await userEvent.click(screen.getByRole('checkbox', { name: 'Select all expenses' }))

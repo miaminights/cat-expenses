@@ -37,10 +37,19 @@ export function useCatExpenseData() {
     setExpenses((prev) => prev.map((e) => (e.id === id ? { ...values, id } : e)))
   }
 
+  function duplicateExpense(id: string) {
+    setExpenses((prev) => {
+      const index = prev.findIndex((e) => e.id === id)
+      if (index === -1) return prev
+      const copy = { ...prev[index], id: crypto.randomUUID() }
+      return [...prev.slice(0, index + 1), copy, ...prev.slice(index + 1)]
+    })
+  }
+
   function deleteExpenses(ids: string[]) {
     const idSet = new Set(ids)
     setExpenses((prev) => prev.filter((e) => !idSet.has(e.id)))
   }
 
-  return { expenses, addExpense, updateExpense, deleteExpenses }
+  return { expenses, addExpense, updateExpense, duplicateExpense, deleteExpenses }
 }

@@ -7,7 +7,7 @@ import { ExpenseModal } from './components/ExpenseModal'
 import type { Expense } from './hooks/useCatExpenseData'
 
 export default function App() {
-  const { expenses, addExpense, updateExpense, deleteExpenses } = useCatExpenseData()
+  const { expenses, addExpense, updateExpense, duplicateExpense, deleteExpenses } = useCatExpenseData()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [currentExpense, setCurrentExpense] = useState<Expense | null>(null)
@@ -40,7 +40,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Page header */}
       <header className="bg-brand-900 text-white shadow-sm">
         <div className="max-w-4xl mx-auto px-6 py-5 flex items-center gap-3">
           <span className="text-2xl" aria-hidden="true">🐾</span>
@@ -50,10 +49,7 @@ export default function App() {
           </div>
         </div>
       </header>
-
-      {/* Main content */}
       <main className="flex-1 max-w-4xl mx-auto w-full px-6 py-8 flex flex-col gap-6">
-        {/* Action bar */}
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
             <h2 className="text-lg font-semibold text-gray-900">Expense Tracker</h2>
@@ -91,8 +87,6 @@ export default function App() {
             </Button>
           </div>
         </div>
-
-        {/* Top category legend */}
         {topCategories.size > 0 && expenses.length > 0 && (
           <div className="flex items-center gap-2 text-sm text-brand-800 bg-brand-50 border border-brand-200 rounded-xl px-4 py-3">
             <span className="text-base" aria-hidden="true">🏆</span>
@@ -103,18 +97,15 @@ export default function App() {
             </span>
           </div>
         )}
-
-        {/* Expense table */}
         <ExpenseTable
           expenses={expenses}
           selectedIds={selectedIds}
           topCategories={topCategories}
           onSelectionChange={setSelectedIds}
           onEdit={handleEditExpense}
+          onDuplicate={duplicateExpense}
         />
       </main>
-
-      {/* Add Expense modal */}
       <ExpenseModal
         isOpen={isModalOpen}
         onClose={handleModalClose}

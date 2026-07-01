@@ -16,7 +16,7 @@ const expense: Expense = { id: '1', name: 'Cat Food', category: 'Food', amount: 
 describe('ExpenseTableRow', () => {
   it('renders the expense name, category badge, and formatted amount', () => {
     render(
-      <ExpenseTableRow expense={expense} isSelected={false} isTopCategory={false} onToggle={vi.fn()} onEdit={vi.fn()} />,
+      <ExpenseTableRow expense={expense} isSelected={false} isTopCategory={false} onToggle={vi.fn()} onEdit={vi.fn()} onDuplicate={vi.fn()} />,
       { wrapper },
     )
     expect(screen.getByText('Cat Food')).toBeInTheDocument()
@@ -26,7 +26,7 @@ describe('ExpenseTableRow', () => {
 
   it('shows the TOP badge when isTopCategory is true', () => {
     render(
-      <ExpenseTableRow expense={expense} isSelected={false} isTopCategory={true} onToggle={vi.fn()} onEdit={vi.fn()} />,
+      <ExpenseTableRow expense={expense} isSelected={false} isTopCategory={true} onToggle={vi.fn()} onEdit={vi.fn()} onDuplicate={vi.fn()} />,
       { wrapper },
     )
     expect(screen.getByText('Top')).toBeInTheDocument()
@@ -34,7 +34,7 @@ describe('ExpenseTableRow', () => {
 
   it('does not show the TOP badge when isTopCategory is false', () => {
     render(
-      <ExpenseTableRow expense={expense} isSelected={false} isTopCategory={false} onToggle={vi.fn()} onEdit={vi.fn()} />,
+      <ExpenseTableRow expense={expense} isSelected={false} isTopCategory={false} onToggle={vi.fn()} onEdit={vi.fn()} onDuplicate={vi.fn()} />,
       { wrapper },
     )
     expect(screen.queryByText('Top')).not.toBeInTheDocument()
@@ -42,7 +42,7 @@ describe('ExpenseTableRow', () => {
 
   it('applies the highlight class when isTopCategory is true', () => {
     const { container } = render(
-      <ExpenseTableRow expense={expense} isSelected={false} isTopCategory={true} onToggle={vi.fn()} onEdit={vi.fn()} />,
+      <ExpenseTableRow expense={expense} isSelected={false} isTopCategory={true} onToggle={vi.fn()} onEdit={vi.fn()} onDuplicate={vi.fn()} />,
       { wrapper },
     )
     expect(container.querySelector('tr')).toHaveClass('bg-brand-50')
@@ -50,7 +50,7 @@ describe('ExpenseTableRow', () => {
 
   it('does not apply the highlight class when isTopCategory is false', () => {
     const { container } = render(
-      <ExpenseTableRow expense={expense} isSelected={false} isTopCategory={false} onToggle={vi.fn()} onEdit={vi.fn()} />,
+      <ExpenseTableRow expense={expense} isSelected={false} isTopCategory={false} onToggle={vi.fn()} onEdit={vi.fn()} onDuplicate={vi.fn()} />,
       { wrapper },
     )
     expect(container.querySelector('tr')).not.toHaveClass('bg-brand-50')
@@ -58,7 +58,7 @@ describe('ExpenseTableRow', () => {
 
   it('renders the checkbox as checked when isSelected is true', () => {
     render(
-      <ExpenseTableRow expense={expense} isSelected={true} isTopCategory={false} onToggle={vi.fn()} onEdit={vi.fn()} />,
+      <ExpenseTableRow expense={expense} isSelected={true} isTopCategory={false} onToggle={vi.fn()} onEdit={vi.fn()} onDuplicate={vi.fn()} />,
       { wrapper },
     )
     expect(screen.getByRole('checkbox')).toBeChecked()
@@ -66,7 +66,7 @@ describe('ExpenseTableRow', () => {
 
   it('renders the checkbox as unchecked when isSelected is false', () => {
     render(
-      <ExpenseTableRow expense={expense} isSelected={false} isTopCategory={false} onToggle={vi.fn()} onEdit={vi.fn()} />,
+      <ExpenseTableRow expense={expense} isSelected={false} isTopCategory={false} onToggle={vi.fn()} onEdit={vi.fn()} onDuplicate={vi.fn()} />,
       { wrapper },
     )
     expect(screen.getByRole('checkbox')).not.toBeChecked()
@@ -75,7 +75,7 @@ describe('ExpenseTableRow', () => {
   it('calls onToggle with the expense id when the checkbox is clicked', async () => {
     const onToggle = vi.fn()
     render(
-      <ExpenseTableRow expense={expense} isSelected={false} isTopCategory={false} onToggle={onToggle} onEdit={vi.fn()} />,
+      <ExpenseTableRow expense={expense} isSelected={false} isTopCategory={false} onToggle={onToggle} onEdit={vi.fn()} onDuplicate={vi.fn()} />,
       { wrapper },
     )
     await userEvent.click(screen.getByRole('checkbox'))
