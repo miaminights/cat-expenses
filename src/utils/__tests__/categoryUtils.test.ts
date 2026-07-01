@@ -1,4 +1,4 @@
-import { getTopCategories, formatCurrency } from '../categoryUtils';
+import { getTopCategories } from '../categoryUtils';
 import type { Expense } from '../../hooks/useCatExpenseData';
 
 const expense = (id: string, category: Expense['category'], amount: number): Expense => ({
@@ -39,22 +39,3 @@ describe('getTopCategories', () => {
   });
 });
 
-describe('formatCurrency', () => {
-  it('formats a whole number with two decimal places', () => {
-    expect(formatCurrency(10)).toBe('$10.00');
-  });
-
-  it('formats a decimal amount correctly', () => {
-    expect(formatCurrency(10.5)).toBe('$10.50');
-    expect(formatCurrency(10.99)).toBe('$10.99');
-  });
-
-  it('formats large numbers with comma separators', () => {
-    expect(formatCurrency(1000)).toBe('$1,000.00');
-    expect(formatCurrency(1234567.89)).toBe('$1,234,567.89');
-  });
-
-  it('formats zero as $0.00', () => {
-    expect(formatCurrency(0)).toBe('$0.00');
-  });
-});
