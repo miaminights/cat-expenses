@@ -22,6 +22,7 @@ const CATEGORIES: Category[] = ['Food', 'Furniture', 'Accessory']
 interface ExpenseFormProps {
   onSubmit: (values: Omit<Expense, 'id'>) => void
   onCancel: () => void
+  initialValues?: Omit<Expense, 'id'>
 }
 
 export function validateForm(values: ExpenseFormValues): ExpenseFormErrors {
@@ -41,6 +42,7 @@ export function validateForm(values: ExpenseFormValues): ExpenseFormErrors {
     errors.amount = 'Amount is required.'
   } else {
     const parsed = parseFloat(values.amount)
+
     if (isNaN(parsed)) {
       errors.amount = 'Please enter a valid number.'
     } else if (parsed <= 0) {
@@ -51,16 +53,18 @@ export function validateForm(values: ExpenseFormValues): ExpenseFormErrors {
   return errors
 }
 
-export function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
+export function ExpenseForm({ onSubmit, onCancel, initialValues }: ExpenseFormProps) {
   const [values, setValues] = useState<ExpenseFormValues>({
-    name: '',
-    category: '',
-    amount: '',
+    name: initialValues?.name ?? '',
+    category: initialValues?.category ?? '',
+    amount: initialValues?.amount !== null ? String(initialValues?.amount ?? '') : '',
   })
+
   const [errors, setErrors] = useState<ExpenseFormErrors>({})
 
   function handleChange(field: keyof ExpenseFormValues, value: string) {
     setValues((prev) => ({ ...prev, [field]: value }))
+
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }))
     }
@@ -68,7 +72,9 @@ export function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+
     const validationErrors = validateForm(values)
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors)
       return
@@ -150,7 +156,7 @@ export function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
           Cancel
         </Button>
         <Button type="submit" variant="primary" className="flex-1">
-          Add Expense
+          {initialValues ? 'Save Changes' : 'Add Expense'}
         </Button>
       </div>
     </form>

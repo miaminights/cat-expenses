@@ -7,14 +7,30 @@ import { ExpenseModal } from './components/ExpenseModal'
 import type { Expense } from './hooks/useCatExpenseData'
 
 export default function App() {
-  const { expenses, addExpense, deleteExpenses } = useCatExpenseData()
+  const { expenses, addExpense, updateExpense, deleteExpenses } = useCatExpenseData()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [currentExpense, setCurrentExpense] = useState<Expense | null>(null)
 
   const topCategories = getTopCategories(expenses)
 
-  function handleAddExpense(values: Omit<Expense, 'id'>) {
-    addExpense(values)
+  function handleEditExpense(id: string) {
+    const found = expenses.find((e) => e.id === id) ?? null
+    setCurrentExpense(found)
+    setIsModalOpen(true)
+  }
+
+  function handleModalClose() {
+    setIsModalOpen(false)
+    setCurrentExpense(null)
+  }
+
+  function handleModalSubmit(values: Omit<Expense, 'id'>) {
+    if (currentExpense) {
+      updateExpense(currentExpense.id, values)
+    } else {
+      addExpense(values)
+    }
   }
 
   function handleDeleteSelected() {
@@ -67,7 +83,7 @@ export default function App() {
               </svg>
               Delete{selectedIds.length > 0 ? ` (${selectedIds.length})` : ''}
             </Button>
-            <Button variant="primary" onClick={() => setIsModalOpen(true)}>
+            <Button variant="primary" onClick={() => { setCurrentExpense(null); setIsModalOpen(true) }}>
               <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
               </svg>
@@ -94,14 +110,16 @@ export default function App() {
           selectedIds={selectedIds}
           topCategories={topCategories}
           onSelectionChange={setSelectedIds}
+          onEdit={handleEditExpense}
         />
       </main>
 
       {/* Add Expense modal */}
       <ExpenseModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={handleAddExpense}
+        onClose={handleModalClose}
+        onSubmit={handleModalSubmit}
+        currentExpense={currentExpense ?? undefined}
       />
     </div>
   )

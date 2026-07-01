@@ -19,6 +19,7 @@ describe('ExpenseTable', () => {
         selectedIds={[]}
         topCategories={new Set()}
         onSelectionChange={vi.fn()}
+        onEdit={vi.fn()}
       />,
     )
     expect(screen.getByText('No expenses yet')).toBeInTheDocument()
@@ -32,6 +33,7 @@ describe('ExpenseTable', () => {
         selectedIds={[]}
         topCategories={new Set()}
         onSelectionChange={vi.fn()}
+        onEdit={vi.fn()}
       />,
     )
     expect(screen.getByText('Item 1')).toBeInTheDocument()
@@ -46,6 +48,7 @@ describe('ExpenseTable', () => {
         selectedIds={[]}
         topCategories={new Set(['Accessory'])}
         onSelectionChange={vi.fn()}
+        onEdit={vi.fn()}
       />,
     )
     // The TOP badge only appears on Accessory rows
@@ -67,6 +70,7 @@ describe('ExpenseTable', () => {
         selectedIds={[]}
         topCategories={new Set()}
         onSelectionChange={onSelectionChange}
+        onEdit={vi.fn()}
       />,
     )
     await userEvent.click(screen.getByRole('checkbox', { name: 'Select Item 1' }))
@@ -82,6 +86,7 @@ describe('ExpenseTable', () => {
         selectedIds={[]}
         topCategories={new Set()}
         onSelectionChange={onSelectionChange}
+        onEdit={vi.fn()}
       />,
     )
     await userEvent.click(screen.getByRole('checkbox', { name: 'Select all expenses' }))
@@ -97,6 +102,7 @@ describe('ExpenseTable', () => {
         selectedIds={['1', '2']}
         topCategories={new Set()}
         onSelectionChange={onSelectionChange}
+        onEdit={vi.fn()}
       />,
     )
     await userEvent.click(screen.getByRole('checkbox', { name: 'Select all expenses' }))

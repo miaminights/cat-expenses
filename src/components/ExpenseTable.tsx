@@ -7,6 +7,7 @@ interface ExpenseTableProps {
   selectedIds: string[]
   topCategories: Set<Category>
   onSelectionChange: (selectedIds: string[]) => void
+  onEdit: (id: string) => void
 }
 
 export function ExpenseTable({
@@ -14,6 +15,7 @@ export function ExpenseTable({
   selectedIds,
   topCategories,
   onSelectionChange,
+  onEdit,
 }: ExpenseTableProps) {
   const selectedSet = new Set(selectedIds)
 
@@ -61,6 +63,7 @@ export function ExpenseTable({
               isSelected={selectedSet.has(expense.id)}
               isTopCategory={topCategories.has(expense.category)}
               onToggle={handleToggleRow}
+              onEdit={onEdit}
             />
           ))}
         </tbody>
