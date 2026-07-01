@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
+import type { ReactNode } from 'react';
 import { ExpenseTableHeader } from '../ExpenseTableHeader';
 
-const wrapper = ({ children }: { children: React.ReactNode }) => <table>{children}</table>;
+const wrapper = ({ children }: { children: ReactNode }) => <table>{children}</table>;
 
 describe('ExpenseTableHeader', () => {
   it('renders the Item, Category, and Amount column headings', () => {

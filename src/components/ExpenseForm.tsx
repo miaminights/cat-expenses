@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { SubmitEvent } from 'react';
 import type { Category, Expense } from '../hooks/useCatExpenseData';
 import { Button } from './Button';
 import { FormField } from './FormField';
@@ -70,7 +71,7 @@ export function ExpenseForm({ onSubmit, onCancel, initialValues }: ExpenseFormPr
     }
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const validationErrors = validateForm(values);

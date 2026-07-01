@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
+import type { ReactNode } from 'react';
 import type { Expense } from '../../hooks/useCatExpenseData';
 import { ExpenseTableRow } from '../ExpenseTableRow';
 
 // <tr> must live inside <table><tbody>
-const wrapper = ({ children }: { children: React.ReactNode }) => (
+const wrapper = ({ children }: { children: ReactNode }) => (
   <table>
     <tbody>{children}</tbody>
   </table>
