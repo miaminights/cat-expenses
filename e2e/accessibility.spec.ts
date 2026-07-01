@@ -84,13 +84,17 @@ test.describe('Modal focus management', () => {
 
   test('dialog is labelled by its visible heading', async ({ page }) => {
     await page.getByRole('button', { name: 'Add Expense' }).click();
-    await expect(page.getByRole('dialog', { name: 'Add Expense' })).toBeVisible();
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toHaveAttribute('aria-labelledby', 'expense-modal-title');
+    await expect(page.locator('#expense-modal-title')).toHaveText('Add Expense');
   });
 
   test('Edit Expense dialog carries the correct label', async ({ page }) => {
     await addExpense(page, 'Cat Food', 'Food', '10.00');
     await page.getByRole('button', { name: 'Edit Cat Food' }).click();
-    await expect(page.getByRole('dialog', { name: 'Edit Expense' })).toBeVisible();
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await expect(page.locator('#expense-modal-title')).toHaveText('Edit Expense');
   });
 
   test('cat fact section is focusable within the modal', async ({ page }) => {

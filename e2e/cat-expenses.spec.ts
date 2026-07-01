@@ -62,8 +62,9 @@ test.describe('Modal open/close', () => {
 
   test('closes when clicking the backdrop', async ({ page }) => {
     await openModal(page);
-    // Top-left corner is always outside the centered modal card
-    await page.mouse.click(5, 5);
+    // Target the backdrop by its unique class — '[aria-hidden="true"]' matches
+    // multiple elements and coordinate-based clicks are blocked by aria-modal enforcement
+    await page.locator('.backdrop-blur-sm').dispatchEvent('click');
     await expect(page.getByRole('dialog')).not.toBeVisible();
   });
 
@@ -310,7 +311,9 @@ test.describe('Data persistence', () => {
     await page.reload();
 
     await expect(page.getByText('Persistent Cat Toy')).toBeVisible();
-    await expect(page.getByText('$35.00')).toBeVisible();
+    await expect(
+      page.locator('tr').filter({ hasText: 'Persistent Cat Toy' }).getByText('$35.00'),
+    ).toBeVisible();
   });
 
   test('stores the correct data structure in localStorage', async ({ page }) => {

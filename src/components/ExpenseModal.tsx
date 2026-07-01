@@ -56,7 +56,7 @@ export function ExpenseModal({ isOpen, onClose, onSubmit, currentExpense }: Expe
             tabIndex={-1}
             role="dialog"
             aria-modal="true"
-
+            aria-labelledby="expense-modal-title"
             className="relative z-10 w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl focus:outline-none"
           >
             <div className="flex items-center justify-between border-b border-gray-100 px-6 py-5">
