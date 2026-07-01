@@ -135,9 +135,9 @@ test.describe('Adding an expense', () => {
 // ─── Deleting expenses ────────────────────────────────────────────────────────
 
 test.describe('Deleting expenses', () => {
-  test('Delete button is disabled when nothing is selected', async ({ page }) => {
+  test('Delete button is not visible when nothing is selected', async ({ page }) => {
     await addExpense(page, 'Cat Toy', 'Accessory', '10.00');
-    await expect(page.getByRole('button', { name: /delete/i })).toBeDisabled();
+    await expect(page.getByRole('button', { name: /delete/i })).not.toBeVisible();
   });
 
   test('deletes the selected expense', async ({ page }) => {

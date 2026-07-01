@@ -1,5 +1,6 @@
+import { useContext } from 'react';
 import type { Expense } from '../hooks/useCatExpenseData';
-import { formatCurrency } from '../utils/categoryUtils';
+import { IntlContext } from './IntlProvider';
 import clsx from 'clsx';
 
 const CATEGORY_BADGES: Record<Expense['category'], string> = {
@@ -25,6 +26,7 @@ export function ExpenseTableRow({
   onEdit,
   onDuplicate,
 }: ExpenseTableRowProps) {
+  const { formatCurrency } = useContext(IntlContext);
   return (
     <tr
       className={clsx('border-b border-gray-100 transition-colors', {

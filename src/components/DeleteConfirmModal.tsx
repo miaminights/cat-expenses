@@ -1,6 +1,7 @@
+import { useContext } from 'react';
 import clsx from 'clsx';
 import type { Expense } from '../hooks/useCatExpenseData';
-import { formatCurrency } from '../utils/categoryUtils';
+import { IntlContext } from './IntlProvider';
 import { Button } from './Button';
 import { Modal } from './Modal';
 
@@ -18,6 +19,7 @@ interface DeleteConfirmModalProps {
 }
 
 export function DeleteConfirmModal({ isOpen, onClose, onConfirm, expenses }: DeleteConfirmModalProps) {
+  const { formatCurrency } = useContext(IntlContext);
   const subtitle = `The following ${expenses.length === 1 ? 'expense' : 'expenses'} will be permanently deleted.`;
 
   return (

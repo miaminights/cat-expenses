@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import type { SubmitEvent } from 'react';
 import type { Category, Expense } from '../hooks/useCatExpenseData';
 import { Button } from './Button';
 import { FormField } from './FormField';
 import { Input } from './Input';
 import { Select } from './Select';
+import { IntlContext } from './IntlProvider';
+import { getCurrencySymbol } from '../utils/intlUtils';
 
 export interface ExpenseFormValues {
   name: string;
@@ -62,6 +64,8 @@ export function ExpenseForm({ onSubmit, onCancel, initialValues }: ExpenseFormPr
   });
 
   const [errors, setErrors] = useState<ExpenseFormErrors>({});
+
+  const { currency } = useContext(IntlContext);
 
   function handleChange(field: keyof ExpenseFormValues, value: string) {
     setValues((prev) => ({ ...prev, [field]: value }));
@@ -143,7 +147,9 @@ export function ExpenseForm({ onSubmit, onCancel, initialValues }: ExpenseFormPr
       >
         {(accessibleLabel) => (
           <div className="relative">
-            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400">$</span>
+            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400">
+              {getCurrencySymbol(currency)}
+            </span>
             <Input
               id="expense-amount"
               type="text"
