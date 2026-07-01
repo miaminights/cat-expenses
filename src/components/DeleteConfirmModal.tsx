@@ -18,18 +18,17 @@ interface DeleteConfirmModalProps {
 }
 
 export function DeleteConfirmModal({ isOpen, onClose, onConfirm, expenses }: DeleteConfirmModalProps) {
+  const subtitle = `The following ${expenses.length === 1 ? 'expense' : 'expenses'} will be permanently deleted.`;
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Delete expenses" titleId="delete-modal-title">
-      <div className="px-6 pt-4 pb-2">
-        <p className="text-sm text-gray-500">
-          The following {expenses.length === 1 ? 'expense' : 'expenses'} will be permanently deleted.
-        </p>
-      </div>
-      <ul className="flex max-h-[540px] flex-col gap-2 overflow-y-auto px-6 py-2">
+    <Modal isOpen={isOpen} onClose={onClose} title="Delete expenses" subtitle={subtitle} titleId="delete-modal-title">
+      <ul className="flex max-h-[540px] flex-col gap-2 overflow-y-auto px-6 py-4">
         {expenses.map((expense) => (
           <li
             key={expense.id}
-            className="flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50 px-4 py-3"
+            tabIndex={0}
+            aria-label={`${expense.name}, ${expense.category}, ${formatCurrency(expense.amount)}`}
+            className="flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-1"
           >
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-gray-900">{expense.name}</span>
