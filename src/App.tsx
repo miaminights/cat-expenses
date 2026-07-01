@@ -7,7 +7,7 @@ import { ExpenseModal } from './components/ExpenseModal';
 import type { Expense } from './hooks/useCatExpenseData';
 
 export default function App() {
-  const { expenses, addExpense, updateExpense, deleteExpenses } = useCatExpenseData();
+  const { expenses, addExpense, updateExpense, duplicateExpense, deleteExpenses } = useCatExpenseData();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [currentExpense, setCurrentExpense] = useState<Expense | null>(null);
@@ -40,7 +40,6 @@ export default function App() {
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
-      {/* Page header */}
       <header className="bg-brand-900 text-white shadow-sm">
         <div className="mx-auto flex max-w-4xl items-center gap-3 px-6 py-5">
           <span className="text-2xl" aria-hidden="true">
@@ -52,10 +51,7 @@ export default function App() {
           </div>
         </div>
       </header>
-
-      {/* Main content */}
       <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-6 py-8">
-        {/* Action bar */}
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h2 className="text-lg font-semibold text-gray-900">Expense Tracker</h2>
@@ -63,19 +59,13 @@ export default function App() {
               <p className="mt-0.5 text-sm text-gray-500">
                 {expenses.length} {expenses.length === 1 ? 'expense' : 'expenses'} total
                 {selectedIds.length > 0 && (
-                  <span className="ml-2 font-medium text-brand-700">
-                    · {selectedIds.length} selected
-                  </span>
+                  <span className="ml-2 font-medium text-brand-700">· {selectedIds.length} selected</span>
                 )}
               </p>
             )}
           </div>
           <div className="flex gap-3">
-            <Button
-              variant="danger"
-              onClick={handleDeleteSelected}
-              disabled={selectedIds.length === 0}
-            >
+            <Button variant="danger" onClick={handleDeleteSelected} disabled={selectedIds.length === 0}>
               <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path
                   fillRule="evenodd"
@@ -99,8 +89,6 @@ export default function App() {
             </Button>
           </div>
         </div>
-
-        {/* Top category legend */}
         {topCategories.size > 0 && expenses.length > 0 && (
           <div className="flex items-center gap-2 rounded-xl border border-brand-200 bg-brand-50 px-4 py-3 text-sm text-brand-800">
             <span className="text-base" aria-hidden="true">
@@ -112,18 +100,15 @@ export default function App() {
             </span>
           </div>
         )}
-
-        {/* Expense table */}
         <ExpenseTable
           expenses={expenses}
           selectedIds={selectedIds}
           topCategories={topCategories}
           onSelectionChange={setSelectedIds}
           onEdit={handleEditExpense}
+          onDuplicate={duplicateExpense}
         />
       </main>
-
-      {/* Add Expense modal */}
       <ExpenseModal
         isOpen={isModalOpen}
         onClose={handleModalClose}

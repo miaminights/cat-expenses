@@ -6,11 +6,7 @@ interface ExpenseTableHeaderProps {
   onToggleAll: (checked: boolean) => void;
 }
 
-export function ExpenseTableHeader({
-  totalCount,
-  selectedCount,
-  onToggleAll,
-}: ExpenseTableHeaderProps) {
+export function ExpenseTableHeader({ totalCount, selectedCount, onToggleAll }: ExpenseTableHeaderProps) {
   const checkboxRef = useRef<HTMLInputElement>(null);
   const isChecked = totalCount > 0 && selectedCount === totalCount;
   const isIndeterminate = selectedCount > 0 && selectedCount < totalCount;
@@ -35,15 +31,9 @@ export function ExpenseTableHeader({
             aria-label="Select all expenses"
           />
         </th>
-        <th className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Item
-        </th>
-        <th className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Category
-        </th>
-        <th className="px-4 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Amount
-        </th>
+        <th className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">Item</th>
+        <th className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">Category</th>
+        <th className="px-4 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">Amount</th>
         <th className="w-12 px-4 py-3.5" aria-label="Actions" />
       </tr>
     </thead>

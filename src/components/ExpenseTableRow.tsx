@@ -14,6 +14,7 @@ interface ExpenseTableRowProps {
   isTopCategory: boolean;
   onToggle: (id: string) => void;
   onEdit: (id: string) => void;
+  onDuplicate: (id: string) => void;
 }
 
 export function ExpenseTableRow({
@@ -22,6 +23,7 @@ export function ExpenseTableRow({
   isTopCategory,
   onToggle,
   onEdit,
+  onDuplicate,
 }: ExpenseTableRowProps) {
   return (
     <tr
@@ -64,20 +66,30 @@ export function ExpenseTableRow({
         </span>
       </td>
       <td className="px-4 py-4 text-right">
-        <span className="text-sm font-semibold tabular-nums text-gray-900">
-          {formatCurrency(expense.amount)}
-        </span>
+        <span className="text-sm font-semibold tabular-nums text-gray-900">{formatCurrency(expense.amount)}</span>
       </td>
-      <td className="w-12 px-4 py-4 text-right">
-        <button
-          onClick={() => onEdit(expense.id)}
-          className="rounded-lg p-1.5 text-gray-400 transition-colors hover:bg-brand-50 hover:text-brand-700"
-          aria-label={`Edit ${expense.name}`}
-        >
-          <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
-          </svg>
-        </button>
+      <td className="w-20 px-4 py-4 text-right">
+        <div className="flex items-center justify-end gap-1">
+          <button
+            onClick={() => onEdit(expense.id)}
+            className="rounded-lg p-1.5 text-gray-400 transition-colors hover:bg-brand-50 hover:text-brand-700"
+            aria-label={`Edit ${expense.name}`}
+          >
+            <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
+            </svg>
+          </button>
+          <button
+            onClick={() => onDuplicate(expense.id)}
+            className="rounded-lg p-1.5 text-gray-400 transition-colors hover:bg-brand-50 hover:text-brand-700"
+            aria-label={`Duplicate ${expense.name}`}
+          >
+            <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V12.5a1.5 1.5 0 01-1.5 1.5h-1v-3.379a3 3 0 00-.879-2.121L10.5 5.379A3 3 0 008.379 4.5H7v-1z" />
+              <path d="M4.5 6A1.5 1.5 0 003 7.5v9A1.5 1.5 0 004.5 18h7a1.5 1.5 0 001.5-1.5v-5.879a1.5 1.5 0 00-.44-1.06L9.44 6.439A1.5 1.5 0 008.378 6H4.5z" />
+            </svg>
+          </button>
+        </div>
       </td>
     </tr>
   );

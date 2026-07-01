@@ -22,6 +22,7 @@ describe('ExpenseTableRow', () => {
         isTopCategory={false}
         onToggle={vi.fn()}
         onEdit={vi.fn()}
+        onDuplicate={vi.fn()}
       />,
       { wrapper },
     );
@@ -38,6 +39,7 @@ describe('ExpenseTableRow', () => {
         isTopCategory={true}
         onToggle={vi.fn()}
         onEdit={vi.fn()}
+        onDuplicate={vi.fn()}
       />,
       { wrapper },
     );
@@ -52,6 +54,7 @@ describe('ExpenseTableRow', () => {
         isTopCategory={false}
         onToggle={vi.fn()}
         onEdit={vi.fn()}
+        onDuplicate={vi.fn()}
       />,
       { wrapper },
     );
@@ -66,6 +69,7 @@ describe('ExpenseTableRow', () => {
         isTopCategory={true}
         onToggle={vi.fn()}
         onEdit={vi.fn()}
+        onDuplicate={vi.fn()}
       />,
       { wrapper },
     );
@@ -80,6 +84,7 @@ describe('ExpenseTableRow', () => {
         isTopCategory={false}
         onToggle={vi.fn()}
         onEdit={vi.fn()}
+        onDuplicate={vi.fn()}
       />,
       { wrapper },
     );
@@ -94,6 +99,7 @@ describe('ExpenseTableRow', () => {
         isTopCategory={false}
         onToggle={vi.fn()}
         onEdit={vi.fn()}
+        onDuplicate={vi.fn()}
       />,
       { wrapper },
     );
@@ -108,6 +114,7 @@ describe('ExpenseTableRow', () => {
         isTopCategory={false}
         onToggle={vi.fn()}
         onEdit={vi.fn()}
+        onDuplicate={vi.fn()}
       />,
       { wrapper },
     );
@@ -123,6 +130,7 @@ describe('ExpenseTableRow', () => {
         isTopCategory={false}
         onToggle={onToggle}
         onEdit={vi.fn()}
+        onDuplicate={vi.fn()}
       />,
       { wrapper },
     );

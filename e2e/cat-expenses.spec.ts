@@ -51,9 +51,7 @@ test.describe('Modal open/close', () => {
   test('opens when the Add Expense button is clicked', async ({ page }) => {
     await openModal(page);
     await expect(page.getByRole('dialog')).toBeVisible();
-    await expect(
-      page.getByRole('dialog').getByRole('heading', { name: 'Add Expense' }),
-    ).toBeVisible();
+    await expect(page.getByRole('dialog').getByRole('heading', { name: 'Add Expense' })).toBeVisible();
   });
 
   test('closes when the X button is clicked', async ({ page }) => {
@@ -199,18 +197,14 @@ test.describe('Checkbox selection', () => {
     await expect(page.getByRole('checkbox', { name: 'Select Cat Collar' })).not.toBeChecked();
   });
 
-  test('header checkbox is indeterminate when only some expenses are selected', async ({
-    page,
-  }) => {
+  test('header checkbox is indeterminate when only some expenses are selected', async ({ page }) => {
     await addExpense(page, 'Cat Food', 'Food', '10.00');
     await addExpense(page, 'Cat Collar', 'Accessory', '20.00');
 
     await page.getByRole('checkbox', { name: 'Select Cat Food' }).check();
 
     const headerCheckbox = page.getByRole('checkbox', { name: 'Select all expenses' });
-    const isIndeterminate = await headerCheckbox.evaluate(
-      (el) => (el as HTMLInputElement).indeterminate,
-    );
+    const isIndeterminate = await headerCheckbox.evaluate((el) => (el as HTMLInputElement).indeterminate);
     expect(isIndeterminate).toBe(true);
   });
 });
@@ -292,9 +286,7 @@ test.describe('Top category highlighting', () => {
     await expect(catFoodRow).not.toHaveClass(/bg-brand-50/);
   });
 
-  test('highlights rows from all tied categories when two categories share the highest total', async ({
-    page,
-  }) => {
+  test('highlights rows from all tied categories when two categories share the highest total', async ({ page }) => {
     // Food $100, Accessory $100 — tied; Furniture $50 — not highlighted
     await addExpense(page, 'Cat Food', 'Food', '100.00');
     await addExpense(page, 'Cat Collar', 'Accessory', '100.00');
@@ -336,9 +328,7 @@ test.describe('Data persistence', () => {
 
     const stored = await page.evaluate(() => {
       const raw = localStorage.getItem('cat-expenses');
-      return raw
-        ? (JSON.parse(raw) as { name: string; category: string; amount: number; id: string }[])
-        : [];
+      return raw ? (JSON.parse(raw) as { name: string; category: string; amount: number; id: string }[]) : [];
     });
 
     expect(stored).toHaveLength(1);
