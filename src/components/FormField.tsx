@@ -1,10 +1,10 @@
-import { ReactNode } from 'react'
+import { ReactNode } from 'react';
 
 interface FormFieldProps {
-  label: string
-  error?: string
-  children: ReactNode
-  htmlFor?: string
+  label: string;
+  error?: string;
+  children: ReactNode;
+  htmlFor?: string;
 }
 
 export function FormField({ label, error, children, htmlFor }: FormFieldProps) {
@@ -15,9 +15,9 @@ export function FormField({ label, error, children, htmlFor }: FormFieldProps) {
       </label>
       {children}
       {error && (
-        <p className="text-xs text-red-600 flex items-center gap-1">
+        <p className="flex items-center gap-1 text-xs text-red-600">
           <svg
-            className="w-3.5 h-3.5 shrink-0"
+            className="h-3.5 w-3.5 shrink-0"
             viewBox="0 0 20 20"
             fill="currentColor"
             aria-hidden="true"
@@ -32,5 +32,5 @@ export function FormField({ label, error, children, htmlFor }: FormFieldProps) {
         </p>
       )}
     </div>
-  )
+  );
 }
