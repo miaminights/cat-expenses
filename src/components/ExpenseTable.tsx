@@ -3,12 +3,12 @@ import { ExpenseTableHeader } from './ExpenseTableHeader';
 import { ExpenseTableRow } from './ExpenseTableRow';
 
 interface ExpenseTableProps {
-  expenses: Expense[]
-  selectedIds: string[]
-  topCategories: Set<Category>
-  onSelectionChange: (selectedIds: string[]) => void
-  onEdit: (id: string) => void
-  onDuplicate: (id: string) => void
+  expenses: Expense[];
+  selectedIds: string[];
+  topCategories: Set<Category>;
+  onSelectionChange: (selectedIds: string[]) => void;
+  onEdit: (id: string) => void;
+  onDuplicate: (id: string) => void;
 }
 
 export function ExpenseTable({

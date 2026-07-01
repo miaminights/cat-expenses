@@ -135,9 +135,7 @@ export function ExpenseForm({ onSubmit, onCancel, initialValues }: ExpenseFormPr
 
       <FormField label="Amount" error={errors.amount} htmlFor="expense-amount">
         <div className="relative">
-          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400">
-            $
-          </span>
+          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400">$</span>
           <Input
             id="expense-amount"
             type="text"

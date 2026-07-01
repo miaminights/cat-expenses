@@ -49,17 +49,11 @@ export function ExpenseModal({ isOpen, onClose, onSubmit, currentExpense }: Expe
       aria-modal="true"
       aria-label={isEditing ? 'Edit Expense' : 'Add Expense'}
     >
-      <div
-        className="absolute inset-0 bg-gray-900/50 backdrop-blur-sm"
-        onClick={onClose}
-        aria-hidden="true"
-      />
+      <div className="absolute inset-0 bg-gray-900/50 backdrop-blur-sm" onClick={onClose} aria-hidden="true" />
       <div className="relative z-10 w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl">
         <div className="flex items-center justify-between border-b border-gray-100 px-6 py-5">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">
-              {isEditing ? 'Edit Expense' : 'Add Expense'}
-            </h2>
+            <h2 className="text-lg font-semibold text-gray-900">{isEditing ? 'Edit Expense' : 'Add Expense'}</h2>
             <p className="mt-0.5 text-sm text-gray-500">
               {isEditing ? 'Update this expense' : 'Track a new cat-related purchase'}
             </p>
@@ -75,37 +69,19 @@ export function ExpenseModal({ isOpen, onClose, onSubmit, currentExpense }: Expe
           </button>
         </div>
         <div className="border-b border-brand-100 bg-brand-50 px-6 py-4">
-          <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-brand-800">
-            Random Cat Fact
-          </p>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-brand-800">Random Cat Fact</p>
           <div className="min-h-10">
             {isLoading && (
               <div className="flex items-center gap-2 text-sm text-brand-700">
-                <svg
-                  className="h-4 w-4 animate-spin"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
+                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                 </svg>
                 Loading a cat fact…
               </div>
             )}
             {error && <p className="text-sm italic text-red-600">{error}</p>}
-            {fact && (
-              <p className="animate-fade-in text-sm italic leading-relaxed text-brand-900">
-                {fact}
-              </p>
-            )}
+            {fact && <p className="animate-fade-in text-sm italic leading-relaxed text-brand-900">{fact}</p>}
           </div>
         </div>
         <div className="px-6 py-6">
