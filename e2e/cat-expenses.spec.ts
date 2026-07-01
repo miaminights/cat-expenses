@@ -205,7 +205,6 @@ test.describe('Checkbox selection', () => {
     await expect(page.getByRole('checkbox', { name: 'Select Cat Food' })).not.toBeChecked();
     await expect(page.getByRole('checkbox', { name: 'Select Cat Collar' })).not.toBeChecked();
   });
-
 });
 
 // ─── Form validation ──────────────────────────────────────────────────────────
@@ -319,9 +318,7 @@ test.describe('Data persistence', () => {
     await page.reload();
 
     await expect(page.getByText('Persistent Cat Toy')).toBeVisible();
-    await expect(
-      page.locator('tr').filter({ hasText: 'Persistent Cat Toy' }).getByText('$35.00'),
-    ).toBeVisible();
+    await expect(page.locator('tr').filter({ hasText: 'Persistent Cat Toy' }).getByText('$35.00')).toBeVisible();
   });
 
   test('stores the correct data structure in localStorage', async ({ page }) => {

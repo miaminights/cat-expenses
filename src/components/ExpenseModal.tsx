@@ -28,21 +28,13 @@ export function ExpenseModal({ isOpen, onClose, onSubmit, currentExpense }: Expe
   const modalSubtitle = isEditing ? 'Update this expense' : 'Track a new cat-related purchase';
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title={modalTitle}
-      subtitle={modalSubtitle}
-      titleId="expense-modal-title"
-    >
+    <Modal isOpen={isOpen} onClose={onClose} title={modalTitle} subtitle={modalSubtitle} titleId="expense-modal-title">
       <div className="border-b border-brand-100 bg-brand-50 px-6 py-4">
         <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-brand-800">Random Cat Fact</p>
         <div
           tabIndex={0}
           className="min-h-10 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2"
-          aria-label={
-            isLoading ? 'Loading a cat fact' : fact ? `Random Cat Fact: ${fact}` : 'No cat fact available'
-          }
+          aria-label={isLoading ? 'Loading a cat fact' : fact ? `Random Cat Fact: ${fact}` : 'No cat fact available'}
         >
           {isLoading && (
             <div className="flex items-center gap-2 text-sm text-brand-700">

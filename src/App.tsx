@@ -18,7 +18,7 @@ export default function App() {
 
   const expensesTotalAmount = useMemo(() => {
     return expenses.reduce((total, expense) => total + expense.amount, 0);
-  }, [expenses.length]);
+  }, [expenses]);
 
   function handleEditExpense(id: string) {
     const found = expenses.find((e) => e.id === id) ?? null;
@@ -39,10 +39,7 @@ export default function App() {
     }
   }
 
-  const selectedExpenses = useMemo(
-    () => expenses.filter((e) => selectedIds.includes(e.id)),
-    [expenses, selectedIds],
-  );
+  const selectedExpenses = useMemo(() => expenses.filter((e) => selectedIds.includes(e.id)), [expenses, selectedIds]);
 
   function handleDeleteConfirmed() {
     deleteExpenses(selectedIds);

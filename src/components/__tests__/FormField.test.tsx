@@ -53,10 +53,7 @@ describe('FormField', () => {
         {(accessibleLabel) => <input aria-label={accessibleLabel} />}
       </FormField>,
     );
-    expect(screen.getByRole('textbox')).toHaveAttribute(
-      'aria-label',
-      'Item Name, e.g. Whiskers Cat Food',
-    );
+    expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', 'Item Name, e.g. Whiskers Cat Food');
   });
 
   it('renders the element returned by render-prop children', () => {
@@ -69,11 +66,7 @@ describe('FormField', () => {
   });
 
   it('passes only the label when fieldLabel is omitted and children is a function', () => {
-    render(
-      <FormField label="Item Name">
-        {(accessibleLabel) => <input aria-label={accessibleLabel} />}
-      </FormField>,
-    );
+    render(<FormField label="Item Name">{(accessibleLabel) => <input aria-label={accessibleLabel} />}</FormField>);
     expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', 'Item Name, ');
   });
 });

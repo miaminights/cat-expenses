@@ -35,9 +35,7 @@ test.describe('Keyboard navigation', () => {
   });
 
   test('empty state is focusable', async ({ page }) => {
-    const emptyState = page.locator(
-      '[aria-label="No expenses yet, click Add Expense to get started"]',
-    );
+    const emptyState = page.locator('[aria-label="No expenses yet, click Add Expense to get started"]');
     await emptyState.focus();
     await expect(emptyState).toBeFocused();
   });
@@ -109,15 +107,11 @@ test.describe('Modal focus management', () => {
 // ─── ARIA attributes ──────────────────────────────────────────────────────────
 
 test.describe('ARIA attributes', () => {
-  test('header checkbox reports aria-checked=mixed when only some expenses are selected', async ({
-    page,
-  }) => {
+  test('header checkbox reports aria-checked=mixed when only some expenses are selected', async ({ page }) => {
     await addExpense(page, 'Cat Food', 'Food', '10.00');
     await addExpense(page, 'Cat Collar', 'Accessory', '20.00');
     await page.getByRole('checkbox', { name: /Select Cat Food/ }).check();
-    await expect(
-      page.getByRole('checkbox', { name: 'Select all expenses' }),
-    ).toHaveAttribute('aria-checked', 'mixed');
+    await expect(page.getByRole('checkbox', { name: 'Select all expenses' })).toHaveAttribute('aria-checked', 'mixed');
   });
 
   test('row checkbox reflects aria-checked state correctly', async ({ page }) => {

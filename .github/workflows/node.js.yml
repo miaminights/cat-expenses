@@ -65,5 +65,3 @@ jobs:
         run: npx playwright install
       - name: Run lint
         run: npm run lint
-
-  
