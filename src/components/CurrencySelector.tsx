@@ -9,10 +9,13 @@ export function CurrencySelector() {
 
   return (
     <div className="relative">
+      <label htmlFor="currency-selector" className="sr-only">
+        Select currency
+      </label>
       <select
+        id="currency-selector"
         value={currency}
         onChange={(e) => setCurrency(e.target.value)}
-        aria-label="Select currency"
         className="inline-flex cursor-pointer appearance-none items-center rounded-xl border border-brand-800 bg-transparent py-2.5 pl-5 pr-10 text-sm font-semibold text-brand-800 transition-colors duration-150 hover:bg-brand-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2 [field-sizing:content]"
       >
         {options.map((opt) => (
