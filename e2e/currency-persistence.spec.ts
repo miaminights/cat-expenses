@@ -78,14 +78,14 @@ test.describe('Currency selector — formatting effect', () => {
     await page.getByRole('dialog').getByRole('button', { name: 'Add Expense' }).click();
     await expect(page.getByRole('dialog')).not.toBeVisible();
 
-    // Default USD formatting
-    await expect(page.getByText('$25.00')).toBeVisible();
+    // Default USD formatting in the table cell
+    await expect(page.locator('td').getByText('$25.00', { exact: true })).toBeVisible();
 
-    // Switch to JPY — no decimal places, making the formatting change unambiguous
+    // Switch to JPY — symbol change makes the difference unambiguous
     await page.getByLabel('Select currency').selectOption('JPY');
 
-    await expect(page.getByText('$25.00')).not.toBeVisible();
-    await expect(page.getByText(/¥25/)).toBeVisible();
+    await expect(page.locator('td').getByText('$25.00', { exact: true })).not.toBeVisible();
+    await expect(page.locator('td').getByText(/¥25/)).toBeVisible();
   });
 
   test('changing currency updates the total amount label', async ({ page }) => {
@@ -102,6 +102,6 @@ test.describe('Currency selector — formatting effect', () => {
     await page.getByLabel('Select currency').selectOption('JPY');
 
     await expect(page.getByText(/\$10\.00 spent/)).not.toBeVisible();
-    await expect(page.getByText(/¥10 spent/)).toBeVisible();
+    await expect(page.getByText(/¥10\.00 spent/)).toBeVisible();
   });
 });
