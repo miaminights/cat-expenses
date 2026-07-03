@@ -98,4 +98,79 @@ describe('useRandomCatFact', () => {
     expect(result.current.error).toBeNull();
     expect(result.current.fact).toBe('Cats purr.');
   });
+
+  it('aborts the previous request when fetchFact is called again before it resolves', () => {
+    const signals: AbortSignal[] = [];
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockImplementation((_url: string, init?: { signal: AbortSignal }) => {
+        signals.push(init!.signal);
+        return new Promise(() => {});
+      }),
+    );
+
+    const { result } = renderHook(() => useRandomCatFact());
+
+    act(() => {
+      void result.current.fetchFact();
+    });
+    act(() => {
+      void result.current.fetchFact();
+    });
+
+    expect(signals).toHaveLength(2);
+    expect(signals[0].aborted).toBe(true);
+    expect(signals[1].aborted).toBe(false);
+  });
+
+  it('aborts the in-flight request when the component unmounts', () => {
+    const signals: AbortSignal[] = [];
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockImplementation((_url: string, init?: { signal: AbortSignal }) => {
+        signals.push(init!.signal);
+        return new Promise(() => {});
+      }),
+    );
+
+    const { result, unmount } = renderHook(() => useRandomCatFact());
+
+    act(() => {
+      void result.current.fetchFact();
+    });
+    expect(signals[0].aborted).toBe(false);
+
+    unmount();
+
+    expect(signals[0].aborted).toBe(true);
+  });
+
+  it('does not update state or warn after unmounting mid-request', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockImplementation((_url: string, init?: { signal: AbortSignal }) => {
+        return new Promise((_resolve, reject) => {
+          init!.signal.addEventListener('abort', () => {
+            reject(Object.assign(new Error('Aborted'), { name: 'AbortError' }));
+          });
+        });
+      }),
+    );
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    const { result, unmount } = renderHook(() => useRandomCatFact());
+
+    let fetchPromise: Promise<void>;
+    act(() => {
+      fetchPromise = result.current.fetchFact();
+    });
+    unmount();
+
+    await act(async () => {
+      await fetchPromise;
+    });
+
+    expect(consoleErrorSpy).not.toHaveBeenCalled();
+    consoleErrorSpy.mockRestore();
+  });
 });
