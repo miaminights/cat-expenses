@@ -107,6 +107,37 @@ test.describe('Cat fact', () => {
 
     expect(callCount).toBe(2);
   });
+
+  test('cancels the in-flight request when a new one is triggered before it resolves', async ({ page }) => {
+    // Never resolve the first request, so it's guaranteed to still be in flight
+    // when the modal is reopened and a second request is triggered.
+    let requestCount = 0;
+    await page.route('https://catfact.ninja/fact', async (route) => {
+      requestCount++;
+      if (requestCount === 1) return; // left pending forever
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ fact: MOCK_CAT_FACT, length: MOCK_CAT_FACT.length }),
+      });
+    });
+
+    const abortedUrls: string[] = [];
+    page.on('requestfailed', (request) => {
+      if (request.url().includes('catfact.ninja') && request.failure()?.errorText === 'net::ERR_ABORTED') {
+        abortedUrls.push(request.url());
+      }
+    });
+
+    await openModal(page);
+    await page.getByRole('button', { name: 'Close modal' }).click();
+    await openModal(page);
+
+    // The second request's real cat fact appears — proving the stale first
+    // request can no longer win a race and overwrite it later.
+    await expect(page.getByText(MOCK_CAT_FACT)).toBeVisible();
+    await expect.poll(() => abortedUrls.length).toBeGreaterThan(0);
+  });
 });
 
 // ─── Adding an expense ────────────────────────────────────────────────────────
