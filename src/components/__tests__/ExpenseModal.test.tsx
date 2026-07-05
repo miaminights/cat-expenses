@@ -3,22 +3,11 @@ import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import type { Expense } from '../../hooks/useCatExpenseData';
-import { useRandomCatFact } from '../../hooks/useRandomCatFact';
 import { ExpenseModal } from '../ExpenseModal';
 
-vi.mock('../../hooks/useRandomCatFact');
-
-const mockFetchFact = vi.fn();
-
-beforeEach(() => {
-  mockFetchFact.mockClear();
-  vi.mocked(useRandomCatFact).mockReturnValue({
-    fact: null,
-    isLoading: false,
-    error: null,
-    fetchFact: mockFetchFact,
-  });
-});
+vi.mock('../RandomCatFact', () => ({
+  RandomCatFact: () => null,
+}));
 
 // ─── Visibility ───────────────────────────────────────────────────────────────
 
@@ -71,48 +60,6 @@ describe('ExpenseModal close behaviour', () => {
     render(<ExpenseModal isOpen={true} onClose={onClose} onSubmit={vi.fn()} />);
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(onClose).toHaveBeenCalledOnce();
-  });
-});
-
-// ─── Cat fact states ──────────────────────────────────────────────────────────
-
-describe('ExpenseModal cat fact', () => {
-  it('shows the loading indicator while the cat fact is being fetched', () => {
-    vi.mocked(useRandomCatFact).mockReturnValue({
-      fact: null,
-      isLoading: true,
-      error: null,
-      fetchFact: mockFetchFact,
-    });
-    render(<ExpenseModal isOpen={true} onClose={vi.fn()} onSubmit={vi.fn()} />);
-    expect(screen.getByText('Loading a cat fact…')).toBeInTheDocument();
-  });
-
-  it('shows the cat fact once it has loaded', () => {
-    vi.mocked(useRandomCatFact).mockReturnValue({
-      fact: 'Cats sleep 16 hours a day.',
-      isLoading: false,
-      error: null,
-      fetchFact: mockFetchFact,
-    });
-    render(<ExpenseModal isOpen={true} onClose={vi.fn()} onSubmit={vi.fn()} />);
-    expect(screen.getByText('Cats sleep 16 hours a day.')).toBeInTheDocument();
-  });
-
-  it('shows an error message when the cat fact fails to load', () => {
-    vi.mocked(useRandomCatFact).mockReturnValue({
-      fact: null,
-      isLoading: false,
-      error: 'Could not load a cat fact right now.',
-      fetchFact: mockFetchFact,
-    });
-    render(<ExpenseModal isOpen={true} onClose={vi.fn()} onSubmit={vi.fn()} />);
-    expect(screen.getByText('Could not load a cat fact right now.')).toBeInTheDocument();
-  });
-
-  it('calls fetchFact when the modal opens', () => {
-    render(<ExpenseModal isOpen={true} onClose={vi.fn()} onSubmit={vi.fn()} />);
-    expect(mockFetchFact).toHaveBeenCalledOnce();
   });
 });
 
