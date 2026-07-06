@@ -16,9 +16,6 @@ export function RandomCatFact() {
   const fact = data?.fact ?? null;
 
   useEffect(() => {
-    // Deferred a microtask so StrictMode's synchronous dev-only mount → cleanup
-    // → remount cycle can cancel the throwaway first call before it ever
-    // dispatches a real request, instead of firing (and aborting) two of them.
     let cancelled = false;
     queueMicrotask(() => {
       if (!cancelled) void fetchData();
